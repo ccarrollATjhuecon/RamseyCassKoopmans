@@ -524,3 +524,4 @@ _region_.*
 Private
 private
 
+.ipynb_*
