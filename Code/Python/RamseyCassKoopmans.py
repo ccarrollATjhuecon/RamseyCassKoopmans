@@ -6,45 +6,12 @@
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]
@@ -55,7 +22,7 @@
 #
 # ## by [Mateo Velásquez-Giraldo](https://github.com/Mv77)
 #
-# This notebook implements a class representing Ramsey's growth model. Current capacities include:
+# This notebook implements a python-language `class` representing Ramsey's growth model. Current capacities include:
 # - Numerically finding the consumption rule using the 'time elimination' method as originally implemented by Alexander Tabarrok and updated by Christopher D. Carroll in this [Wolfram Mathematica notebook](www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Growth/RamseyNumericSolve.zip)
 # - Drawing the phase diagram of the model.
 # - Simulating optimal dynamics from a given starting point.
@@ -80,6 +47,11 @@
 
 # %% {"code_folding": [0]}
 # Setup
+
+# Tools for navigating the filesystem
+import sys
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -88,33 +60,126 @@ from scipy import interpolate
 
 from numpy import linalg as LA
 
-# This is a jupytext paired notebook 
-# which can be executed from a terminal command line via "ipython [notebookname].py"
-# But a terminal does not permit inline figures, so we need to test jupyter vs terminal
-# Google "how can I check if code is executed in the ipython notebook"
+# Set up some special requirements for this notebook; please be patient, it may take 3-5 minutes
+
+# Determine the platform so we can do things specific to each 
+import platform
+pform = ''
+pform = platform.platform().lower()
+if 'darwin' in pform:
+    pf = 'darwin' # MacOS
+if 'debian' in pform:
+    pf = 'debian' # Probably cloud (MyBinder, CoLab, ...)
+if 'ubuntu' in pform:
+    pf = 'debian' # Probably cloud (MyBinder, CoLab, ...)
+if 'win' in pform:
+    pf = 'win'
+
+# Test whether latex is installed (some of the figures require it)
+from distutils.spawn import find_executable
+
+latexExists=False
+
+if find_executable('latex'):
+    latexExists=True
+
+if not latexExists:
+    print('Some of the figures below require a full installation of LaTeX')
+    
+    # If running on Mac or Win, user can be assumed to be able to install
+    # any missing packages in response to error messages; but not on cloud
+    # so load LaTeX by hand (painfully slowly)
+    if 'debian' in pf: # CoLab and MyBinder are both ubuntu
+        print('Installing LaTeX now; please wait 3-5 minutes')
+        from IPython.utils import io
+        
+        with io.capture_output() as captured: # Hide hideously long output 
+            os.system('apt-get update')
+            os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
+            latexExists=True
+    else:
+        print('Please install a full distributon of LaTeX on your computer then rerun.')
+        print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
+        sys.exit()
+
+# If the ipython process contains 'terminal' assume not in a notebook
 def in_ipynb():
     try:
-        if str(type(get_ipython())) == "<class 'ipykernel.zmqshell.ZMQInteractiveShell'>":
-            return True
-        else:
+        if 'terminal' in str(type(get_ipython())):
             return False
+        else:
+            return True
     except NameError:
         return False
+
+# In order to use LaTeX to manage all text layout in our figures, 
+# we import rc settings from matplotlib.
+from matplotlib import rc
+
+plt.rc('font', family='serif')
+plt.rc('text', usetex=latexExists)
+if latexExists:
+    latex_preamble = r'\usepackage{amsmath}\usepackage{amsfonts}\usepackage[T1]{fontenc}'
+    from os import path
+    latexdefs_path = os.getcwd()+'/latexdefs.tex'
+    if path.isfile(latexdefs_path):
+        latex_preamble = latex_preamble+r'\input{'+latexdefs_path+r'}'
+    else: # the required latex_envs package needs this file to exist even if it is empty
+        from pathlib import Path
+        Path(latexdefs_path).touch()
+    plt.rcParams['text.latex.preamble'] = latex_preamble
+    
+# This is a jupytext paired notebook that autogenerates BufferStockTheory.py
+# which can be executed from a terminal command line via "ipython BufferStockTheory.py"
+# But a terminal does not permit inline figures, so we need to test jupyter vs terminal
+# Google "how can I check if code is executed in the ipython notebook"
 
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
 if in_ipynb():
     # %matplotlib inline generates a syntax error when run from the shell
     # so do this instead
-    get_ipython().run_line_magic('matplotlib', 'inline') 
+    get_ipython().run_line_magic('matplotlib', 'inline')
 else:
-    get_ipython().run_line_magic('matplotlib', 'auto') 
+    get_ipython().run_line_magic('matplotlib', 'auto')
 
-# Import the plot-figure library matplotlib
+# Code to allow a master "Generator" and derived "Generated" versions
+#   - allows "$nb-Problems-And-Solutions → $nb-Problems → $nb"
+Generator=False # Is this notebook the master or is it generated?
 
-import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.rcParams['text.usetex'] = True
+# Where to put any figures that the user wants to save
+my_file_path = os.path.dirname(os.path.abspath("BufferStockTheory.ipynb")) # Find pathname to this file:
+Figures_dir = os.path.join(my_file_path,"Figures/") # LaTeX document assumes figures will be here
+if not os.path.exists(Figures_dir):
+    os.makedirs(Figures_dir)
+    
+# Whether to save the figures to local filesystem
+saveFigs=True
+
+# Whether to draw the figures
+drawFigs=True
+
+if not in_ipynb(): # running in batch mode
+    print('You appear to be running from a terminal')
+    if drawFigs:
+        print('By default, figures will appear one by one')
+        
+# Create, and if desired, save and show the figures
+def show(figure_name, target_dir="Figures"):
+    # Save the figures in several formats
+    # print(f"Saving figure {figure_name} in {target_dir}")
+    if saveFigs:
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.png')) # For web/html
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.jpg')) # Useful to make versions 
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.pdf')) # For LaTeX
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.svg')) # For html5
+    if not in_ipynb():
+        if drawFigs: # Only want to draw them if you're in a GUI
+            plt.ioff()   # When plotting in the terminal, do not use interactive mode
+            plt.draw()  
+            plt.pause(2) # Wait a couple of secs to allow the figure to be briefly visible after being drawn
+    else:
+        plt.show(block=True) # Change to false if you want to run uninterrupted
 
 # %% {"code_folding": [0]}
 # Implement the RCKmod class
@@ -332,7 +397,7 @@ class RCKmod:
 #
 # This is a quick example of how the class is used.
 #
-# An instance of the model is first created by assigning the required parameter values.
+# An `instance` of the model is first created by assigning the required parameter values.
 #
 # The model needs to be solved in order to find the consumption rule or 'saddle path'.
 
@@ -356,6 +421,7 @@ RCKmodExample.phase_diagram(arrows= True, n_arrows = 12)
 # The $\texttt{RCKmod}$ class can also be used to simulate the dynamics of capital given a starting point.
 
 # %% {"code_folding": [0]}
+# Create the points in time then plot c and k at those points
 # Create grid of time points
 t = np.linspace(0,100,100)
 
@@ -391,7 +457,7 @@ plt.xlabel('Time')
 plt.legend()
 plt.show()
 
-# %% [markdown]
+# %% [markdown] {"heading_collapsed": true}
 # # Appendix 1: finding the slope of the saddle path at the steady state
 #
 # From the solution of the model, we know that the system of differential equations that describes the dynamics of $c$ and $k$ is 
@@ -427,7 +493,7 @@ plt.show()
 # \end{bmatrix}
 # \end{align}
 #
-# For this we find the system's matrix of first derivatives
+# For this we find the system's matrix of first derivatives (the 'Jacobian'):
 #
 # \begin{align}
 # J(c,k) =
@@ -441,7 +507,7 @@ plt.show()
 # \end{bmatrix}
 # \end{align}
 #
-# Given the saddle-path stability of the system, $J(c_{ss},k_{ss})$ will have a positive and a negative eigenvalue. The slope of the saddle path at the steady state capital is given by the eigenvector associated with the negative eigenvalue.
+# Given 'saddle-path stability of the system,' (look it up) $J(c_{ss},k_{ss})$ will have a positive and a negative eigenvalue. The slope of the saddle path at steady state capital is $\bar{k}$ given by the eigenvector associated with the negative eigenvalue.
 #
 # To understand why, rewrite the ODE system as
 #
@@ -508,12 +574,12 @@ plt.show()
 #
 # Note that, given $\lambda_1<0$, as $t \rightarrow \infty$, $e^{\lambda_1 t}\rightarrow 0$ and $[\hat{c}_t,\hat{k}_t] = [0,0]$ which is precisely what we require.
 #
-# From the previous solution, we know that in our linear approximation of the dynamic system around $[\hat{c}_t, \hat{k}_t] = [0,0]$, the ratio $\hat{c}_t/\hat{k}_t$ will be the constant $u_{1,1}/u_{1,2}$. Therefore, we can conclude that the slope of the tangent to the saddle path (in k-c coordinates) at the steady state capital $\bar{k}$ will be exactly $u_{1,1}/u_{1,2}$ where $\mathbf{u_1}$ is the eigenvector associated with the negative eigenvalue of the Jacobian matrix J.  This corresponds to the "time elimination" step, because $u_{1,1}$ corresponds to $dc/dt$ and $u_{2,1}$ corresponds to $dk/dt$, so $u_{1,1}/u_{1,2}$ corresponds to $(dc/dt)/(dk/dt)=dc/dk$, which is the slope of the consumption function at the steady state.
+# From the previous solution, we know that in our linear approximation of the dynamic system around $[\hat{c}_t, \hat{k}_t] = [0,0]$, the ratio $\hat{c}_t/\hat{k}_t$ will be the constant $u_{1,1}/u_{1,2}$. Therefore, we can conclude that the slope of the tangent to the saddle path (in k-c coordinates) at the steady state capital $\bar{k}$ will be exactly $u_{1,1}/u_{1,2}$ where $\mathbf{u_1}$ is the eigenvector associated with the negative eigenvalue of the Jacobian matrix $J$.  This corresponds to the "time elimination" step, because $u_{1,1}$ corresponds to $dc/dt$ and $u_{2,1}$ corresponds to $dk/dt$, so $u_{1,1}/u_{1,2}$ corresponds to $(dc/dt)/(dk/dt)=dc/dk$, which is the slope of the consumption function at the steady state.
 
 # %% [markdown]
 # # Appendix 2: Figures for Christopher D. Carroll's lecture notes
 
-# %% {"code_folding": [8]}
+# %% {"code_folding": [0, 8]}
 # Figure RamseySSPlot
 
 labels = ['$\phi$ low','$\phi$ high']
@@ -554,14 +620,9 @@ for i in range(len(g)):
 plt.title('$\\dot{c}/c = 0$ and $\\dot{k} = 0$ Loci')
 plt.xlabel('k')
 plt.ylabel('c')
-fig = plt.gcf() # Get the figure in order to save it
-fig.savefig('./RamseyCassKoopmans-Figures/RamseySSPlot.svg')
-fig.savefig('./RamseyCassKoopmans-Figures/RamseySSPlot.png')
-fig.savefig('./RamseyCassKoopmans-Figures/RamseySSPlot.pdf')
+show('RamseySSPlot')
 
-plt.show()
-
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Figure RamseySaddlePlot
 npoints = 100
 
@@ -601,8 +662,4 @@ for i in range(len(init_cs)):
 plt.title('Transition to the Steady State')
 plt.xlabel('k')
 plt.ylabel('c')
-fig = plt.gcf() # Get the figure in order to save it
-fig.savefig('./RamseyCassKoopmans-Figures/RamseySaddlePlot.svg')
-fig.savefig('./RamseyCassKoopmans-Figures/RamseySaddlePlot.png')
-fig.savefig('./RamseyCassKoopmans-Figures/RamseySaddlePlot.pdf')
-plt.show()
+show('RamseySaddlePlot')
