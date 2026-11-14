@@ -525,3 +525,8 @@ Private
 private
 
 .ipynb_*
+
+# The handout's build: the root latexmkrc and the vendored @resources (an exact export of
+# econ-ark-tools) are tracked, though the rules above would ignore some of their files
+!/latexmkrc
+!/@resources/**
