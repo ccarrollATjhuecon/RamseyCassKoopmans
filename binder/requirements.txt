@@ -1,4 +1,8 @@
-# Binder's environment for RamseyCassKoopmans.ipynb: the book's package, which brings numpy, scipy,
-# matplotlib, pandas and ipywidgets. The notebook's first cell installs it when it is missing (Colab, a
-# download); installing it here when Binder builds the image makes that cell do nothing.
-intertemporal-choice @ git+https://github.com/intertemporal-choice/intertemporal-choice.github.io
+# Binder's environment for RamseyCassKoopmans.ipynb: a release of the book's package, which brings numpy,
+# scipy, matplotlib, pandas and ipywidgets. The notebook's first cell installs the package from the book's
+# main when it is missing (Colab, a download); installing it here when Binder builds the image makes that
+# cell do nothing. A release, not main, so that a later build runs the same package this copy of the
+# notebook was checked with. Move the pin when the notebook is copied again from the book: the newest
+# release is the last line of https://intertemporal-choice.github.io/packages/releases.txt, which also
+# gives the sha256 that pip checks here. Never the bare name: it is unclaimed on PyPI.
+intertemporal-choice @ https://intertemporal-choice.github.io/packages/intertemporal_choice-2026.11.14.1-py3-none-any.whl#sha256=4bbe2aecd0dacc10d16ed1800fcd7510f7ae3a56ec7ddb53906c4b0f8c457d1e
