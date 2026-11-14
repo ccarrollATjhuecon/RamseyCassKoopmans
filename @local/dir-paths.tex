@@ -1,7 +1,10 @@
 \providecommand{\FigDir}{}\renewcommand{\FigDir}{\econtexRoot/Figures}
-% The book's notebook beside the chapter, which solves the model and draws both figures (book PR #83).
-% The handout links to the book's copy, where the book's relative link [notebook](RamseyCassKoopmans.ipynb) points.
-\providecommand{\BookNotebook}{https://github.com/intertemporal-choice/intertemporal-choice.github.io/blob/main/content/growth/RamseyCassKoopmans/RamseyCassKoopmans.ipynb}
+% The notebook that solves the model and draws both figures. The handout keeps its own copy beside it,
+% identical to the book's beside the chapter (Chris, 2026-11-14, in cc:course-choice: "own copy of the
+% notebook"), and links it as a file in the same folder, as the book's [notebook](RamseyCassKoopmans.ipynb) does.
+\providecommand{\Notebook}{RamseyCassKoopmans.ipynb}
+\providecommand{\NotebookColab}{https://colab.research.google.com/github/ccarrollATjhuecon/RamseyCassKoopmans/blob/master/RamseyCassKoopmans.ipynb}
+% Only the book hosts JupyterLite; and this repo's binder/ (Python 3.7) can't install the book's package,
+% which the notebook's first cell needs (Python 3.11 or later). So these two still run the book's copy.
 \providecommand{\BookNotebookLite}{https://intertemporal-choice.github.io/lite/notebooks/index.html?path=RamseyCassKoopmans.ipynb}
-\providecommand{\BookNotebookColab}{https://colab.research.google.com/github/intertemporal-choice/intertemporal-choice.github.io/blob/main/content/growth/RamseyCassKoopmans/RamseyCassKoopmans.ipynb}
 \providecommand{\BookNotebookBinder}{https://mybinder.org/v2/gh/intertemporal-choice/intertemporal-choice.github.io/main?labpath=content/growth/RamseyCassKoopmans/RamseyCassKoopmans.ipynb}

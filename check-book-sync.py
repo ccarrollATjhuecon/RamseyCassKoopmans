@@ -79,6 +79,17 @@ CROSS_CHAPTER = {
     '#eq:PFCRRA-cgrow': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow',
 }
 
+# The notebook beside the chapter, of which the handout keeps an identical copy beside it
+# (Chris, 2026-11-14, in cc:course-choice: "own copy of the notebook").
+NOTEBOOK = 'RamseyCassKoopmans.ipynb'
+
+# (book address, handout address, why accepted): links the handout points at its own copy.
+OWN_COPY = "the handout's own copy of the notebook"
+ACCEPTED_LINKS = [
+    ('https://colab.research.google.com/github/intertemporal-choice/intertemporal-choice.github.io/blob/main/content/growth/RamseyCassKoopmans/RamseyCassKoopmans.ipynb',
+     'https://colab.research.google.com/github/ccarrollATjhuecon/RamseyCassKoopmans/blob/master/RamseyCassKoopmans.ipynb', OWN_COPY),
+]
+
 # Handout macros that render differently from the book's, and why.
 OVERRIDE = "the book's course-local override, to be substituted by the registry's rendering"
 BOLD = 'the registry\'s bold level (Chris, 2026-11-14, "All bold levels"); the book still prints a plain letter'
@@ -282,12 +293,12 @@ def compare_words(hand, book, accepted, problems, what='Wording'):
 
 
 def link_macros():
-    """The addresses the handout names with macros in @local/dir-paths.tex, such as \\BookNotebook."""
+    """The addresses the handout names with macros in @local/dir-paths.tex, such as \\NotebookColab."""
     text = open(os.path.join(HERE, '@local', 'dir-paths.tex'), encoding='utf8').read()
-    return dict(re.findall(r'^\\providecommand\{\\(\w+)\}\{(https?://[^}]*)\}', text, re.M))
+    return dict(re.findall(r'^\\providecommand\{\\(\w+)\}\{([^}\\]*)\}', text, re.M))
 
 
-def compare_marks(plain, md, problems):
+def compare_marks(plain, md, problems, links_used):
     """Equation labels, citations and external links: `plain` is handout source, `md` the book page."""
     h_labels = {strip_label(x) for x in re.findall(r'\\label\{(eq:[^}]*)\}', plain)}
     b_labels = {strip_label(x) for x in re.findall(r'^\s*:label:\s*(eq:\S+)', md, re.M)}
@@ -323,7 +334,12 @@ def compare_marks(plain, md, problems):
             problems.append(f'Link only in the {"handout" if not b_urls else "book"}: {text}')
             continue
         for b_url, h_url in zip(b_urls, h_urls):
-            if b_url != h_url and not (not b_url.startswith('http') and h_url.endswith('/' + b_url)):
+            if b_url == h_url or (not b_url.startswith('http') and h_url.endswith('/' + b_url)):
+                continue
+            entry = next((e for e in ACCEPTED_LINKS if (e[0], e[1]) == (b_url, h_url)), None)
+            if entry:
+                links_used.add(entry)
+            else:
                 problems.append(f'Link "{text}":\n    book:    {b_url}\n    handout: {h_url}')
         if len(b_urls) != len(h_urls):
             problems.append(f'Link "{text}": {len(b_urls)} in the book, {len(h_urls)} in the handout')
@@ -422,8 +438,19 @@ def main():
         if not used.get(pattern):
             problems.append(f'No longer needed in ACCEPTED_REWRITES: {pattern}')
 
-    compare_marks(plain, md, problems)
+    links_used = set()
+    compare_marks(plain, md, problems, links_used)
+    for entry in ACCEPTED_LINKS:
+        if entry not in links_used:
+            problems.append(f'No longer needed in ACCEPTED_LINKS: {entry[1]}')
     compare_figures(args.ref, chapter, md, problems)
+    book_nb = fetch(args.ref, os.path.join(os.path.dirname(chapter), NOTEBOOK))
+    if book_nb is None:
+        problems.append(f'The notebook {NOTEBOOK} is not beside the chapter at this ref')
+    elif not os.path.exists(os.path.join(HERE, NOTEBOOK)):
+        problems.append(f'The notebook {NOTEBOOK} is beside the chapter but not beside the handout')
+    elif hashlib.sha256(book_nb).digest() != hashlib.sha256(open(os.path.join(HERE, NOTEBOOK), 'rb').read()).digest():
+        problems.append(f"The notebook {NOTEBOOK} differs from the book's: copy it again, with ditto")
 
     hand_table = read_macros(open(os.path.join(HERE, REGISTRY), encoding='utf8').read())
     sty = open(os.path.join(HERE, LOCAL_STY), encoding='utf8').read()

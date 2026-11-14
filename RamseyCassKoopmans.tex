@@ -185,7 +185,7 @@ the phases in the phase diagram, as illustrated in figure~\ref{fig:RamseySSPlot}
   \caption{$\dot{\cNrm}/\cNrm =0 $ and $\dot{\kap}=0$ Loci}\label{fig:RamseySSPlot}
   \includegraphics[width=6in]{\FigDir/RamseySSPlot.png}
 
-  \small Note: With $\CRRA=2$, $\kapShare=0.3$, $\discRte=0.02$, $\PopnGroRte=0.01$ and $\deprRte=0.08$, and productivity growth $\PtyGroRte$ of 0.03 (low) or 0.06 (high); the dotted line marks the golden rule when $\PtyGroRte$ is low. Drawn by the \href{\BookNotebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\BookNotebookColab}{Colab} or \href{\BookNotebookBinder}{Binder}.
+  \small Note: With $\CRRA=2$, $\kapShare=0.3$, $\discRte=0.02$, $\PopnGroRte=0.01$ and $\deprRte=0.08$, and productivity growth $\PtyGroRte$ of 0.03 (low) or 0.06 (high); the dotted line marks the golden rule when $\PtyGroRte$ is low. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\BookNotebookBinder}{Binder}.
 \end{figure}
 
 \section{Transition}
@@ -213,7 +213,7 @@ both \eqref{eq:cdotOc} and \eqref{eq:RCK-kdot} as well as the TVC
   \caption{Transition to the Steady State}\label{fig:RamseySaddlePlot}
   \includegraphics[width=6in]{\FigDir/RamseySaddlePlot.png}
 
-  \small Note: The same economy, with $\PtyGroRte=0.03$. From $\kap=0.5$, consumption 10 percent above the saddle path runs the capital stock down to zero, and consumption 10 percent below it accumulates capital past the golden rule, marked by the dotted line. Drawn by the \href{\BookNotebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\BookNotebookColab}{Colab} or \href{\BookNotebookBinder}{Binder}.
+  \small Note: The same economy, with $\PtyGroRte=0.03$. From $\kap=0.5$, consumption 10 percent above the saddle path runs the capital stock down to zero, and consumption 10 percent below it accumulates capital past the golden rule, marked by the dotted line. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\BookNotebookBinder}{Binder}.
 \end{figure}
 
 How much of observed growth can the transition explain? Little, \citet{king&rebelo:trans} argue: with plausible parameters, an economy far enough below its steady state for the transition to account for much of its growth would have implausibly high interest rates early on.
@@ -258,7 +258,7 @@ How much of observed growth can the transition explain? Little, \citet{king&rebe
 
   There is one problem, however, which is that at the steady-state values of $\cNrm$ and $\kap$ both numerator and denominator of this equation are zero.  The alternative is to solve the differential equation twice: Once for a domain extending from $\kap=0$ to $\Steady{\kap}-\epsilon$, yielding $\cFunc_{-}(\kap)$, and once for a domain from $\Steady{\kap}+\epsilon$ to some large value of $\kap$, yielding $\cFunc_{+}(\kap)$. The true consumption policy function can then be approximated by interpolating between the upper endpoint of $\cFunc_{-}(\kap)$ and the lower endpoint of $\cFunc_{+}(\kap)$.
 
-  \citet{judd:book} covers numerical methods for saddle paths more generally.  The \href{\BookNotebook}{notebook} solves the model this way and draws both figures; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\BookNotebookColab}{Colab} or \href{\BookNotebookBinder}{Binder}.
+  \citet{judd:book} covers numerical methods for saddle paths more generally.  The \href{\Notebook}{notebook} solves the model this way and draws both figures; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\BookNotebookBinder}{Binder}.
 }{}
 
 \end{document}
