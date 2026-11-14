@@ -88,6 +88,8 @@ OWN_COPY = "the handout's own copy of the notebook"
 ACCEPTED_LINKS = [
     ('https://colab.research.google.com/github/intertemporal-choice/intertemporal-choice.github.io/blob/main/content/growth/RamseyCassKoopmans/RamseyCassKoopmans.ipynb',
      'https://colab.research.google.com/github/ccarrollATjhuecon/RamseyCassKoopmans/blob/master/RamseyCassKoopmans.ipynb', OWN_COPY),
+    ('https://mybinder.org/v2/gh/intertemporal-choice/intertemporal-choice.github.io/main?labpath=content/growth/RamseyCassKoopmans/RamseyCassKoopmans.ipynb',
+     'https://mybinder.org/v2/gh/ccarrollATjhuecon/RamseyCassKoopmans/master?labpath=RamseyCassKoopmans.ipynb', OWN_COPY),
 ]
 
 # Handout macros that render differently from the book's, and why.

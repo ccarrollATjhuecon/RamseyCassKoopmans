@@ -1,10 +1,4 @@
-matplotlib
-numpy
-ipywidgets
-scipy
-jupyter
-cite2c
-econ-ark
-pandas
-pandas-datareader
-statsmodels
+# Binder's environment for RamseyCassKoopmans.ipynb: the book's package, which brings numpy, scipy,
+# matplotlib, pandas and ipywidgets. The notebook's first cell installs it when it is missing (Colab, a
+# download); installing it here when Binder builds the image makes that cell do nothing.
+intertemporal-choice @ git+https://github.com/intertemporal-choice/intertemporal-choice.github.io
