@@ -69,12 +69,15 @@ ACCEPTED_REWRITES = [
 
 # (the handout's words just before it, handout words, book words, why accepted)
 # Words are as tokenized, with spaces between them.
-CITEYEAR = "the handout writes the author's name before \\cite, which it makes \\citeyearpar; the book's {cite:t} prints the name"
 ACCEPTED_TEXT = [
-    ('followed much later by', 'Cass', '', CITEYEAR),
-    ('CITEcass : growth and', 'Koopmans', '', CITEYEAR),
-    ('golden rule optimality condition of', 'Phelps', '', CITEYEAR),
+    ('technological progress . This', 'handout', 'chapter', 'each document names its own format'),
 ]
+
+# The book's links to labels in other chapters, and the address the handout gives each
+# (Chris, 2026-11-14: link to the book's page).
+CROSS_CHAPTER = {
+    '#eq:PFCRRA-cgrow': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow',
+}
 
 # Handout macros that render differently from the book's, and why.
 OVERRIDE = "the book's course-local override, to be substituted by the registry's rendering"
@@ -171,10 +174,13 @@ def unwrap(text, opener, before='', after=''):
 
 
 def take_margins(text):
-    """The handout's margin notes, \\opt{MarginNotes}{\\marginpar{\\tiny ...}}, removed from the text and returned."""
+    """The handout's versions of the book's margin notes, removed from the text and returned.
+
+    \\marginFootnote{...} prints a book margin note as a footnote (Chris, 2026-11-14); the 2021 handout's
+    instructor notes, \\opt{MarginNotes}{\\marginpar{\\tiny ...}}, printed only with that option."""
     notes = []
     while True:
-        m = re.search(r'\\opt\{MarginNotes\}\{', text)
+        m = re.search(r'\\marginFootnote\{|\\opt\{MarginNotes\}\{', text)
         if not m:
             return text, notes
         close = matching_brace(text, m.end() - 1)
@@ -203,8 +209,9 @@ def handout_words(t):
     t = re.sub(r'\\cite[tp]?\{([^}]*)\}', r'CITE\1', t)
     t = re.sub(r'\\includegraphics(\[[^\]]*\])?\{[^}]*\}', '', t)
     t = re.sub(r'\\(begin|end)\{figure\}', '', t)
-    t = re.sub(r'\\(notag|medskip|pagebreak|centering|centerline|LARGE|Large|bf)\b', '', t)
-    for opener in (r'\\href\{[^}]*\}', r'\\textit', r'\\textbf', r'\\texttt', r'\\caption', r'\\(?:sub)*section'):
+    t = re.sub(r'\\(notag|medskip|pagebreak|centering|centerline|LARGE|Large|bf|small|par)\b', '', t)
+    for opener in (r'\\hyperref\[[^\]]*\]', r'\\href\{[^}]*\}', r'\\textit', r'\\textbf', r'\\texttt',
+                   r'\\caption', r'\\(?:sub)*section'):
         t = unwrap(t, opener)
     return tokens(unwrap(t, r'\\footnote', ' FOOT ', ' ENDFOOT '))
 
@@ -274,10 +281,10 @@ def compare_words(hand, book, accepted, problems, what='Wording'):
     return matched
 
 
-def book_links(md):
-    """[text](url) links to other places, with Markdown's escaped parentheses unescaped."""
-    return {text: re.sub(r'\\([()])', r'\1', url)
-            for text, url in re.findall(r'\[([^\]]*)\]\(((?:\\.|[^)\\])*)\)', md) if not url.startswith('#')}
+def link_macros():
+    """The addresses the handout names with macros in @local/dir-paths.tex, such as \\BookNotebook."""
+    text = open(os.path.join(HERE, '@local', 'dir-paths.tex'), encoding='utf8').read()
+    return dict(re.findall(r'^\\providecommand\{\\(\w+)\}\{(https?://[^}]*)\}', text, re.M))
 
 
 def compare_marks(plain, md, problems):
@@ -294,13 +301,22 @@ def compare_marks(plain, md, problems):
     for k in sorted(b_cites ^ h_cites):
         problems.append(f'Citation only in the {"book" if k in b_cites else "handout"}: {k}')
 
+    macros = link_macros()
     h_links = {}
     for url, text in re.findall(r'\\href\{([^}]*)\}\{([^}]*)\}', plain):
-        h_links.setdefault(text, []).append(url)
+        h_links.setdefault(text, []).append(re.sub(r'^\\(\w+)$', lambda m: macros.get(m[1], m[0]), url))
     b_links = {}
+    own = set(re.findall(r'^\s*:label:\s*(\S+)', md, re.M))
     for text, url in re.findall(r'\[([^\]]*)\]\(((?:\\.|[^)\\])*)\)', md):
-        if not url.startswith('#'):
-            b_links.setdefault(text, []).append(re.sub(r'\\([()])', r'\1', url))
+        url = re.sub(r'\\([()])', r'\1', url)
+        if url.startswith('#'):
+            if url[1:] in own:
+                continue  # a link within the chapter; the handout's \hyperref isn't compared
+            if url not in CROSS_CHAPTER:
+                problems.append(f'Link "{text}" to {url} in another chapter: give its address in CROSS_CHAPTER')
+                continue
+            url = CROSS_CHAPTER[url]
+        b_links.setdefault(text, []).append(url)
     for text in sorted(set(b_links) | set(h_links)):
         b_urls, h_urls = b_links.get(text, []), h_links.get(text, [])
         if not b_urls or not h_urls:
