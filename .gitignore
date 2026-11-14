@@ -530,3 +530,5 @@ private
 # econ-ark-tools) are tracked, though the rules above would ignore some of their files
 !/latexmkrc
 !/@resources/**
+# the build's text dump of the PDF (ignored in PerfForesightCRRA too)
+/RamseyCassKoopmans.txt

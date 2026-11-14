@@ -1,0 +1,6 @@
+% Macros specific to this handout: objects the shared registry (econ-ark-tools, @resources/notation) lacks.
+% Each is a bridge: it loads after econark-notation, so once the vendored registry defines the macro,
+% the registry's definition wins; then delete the line here. The book defines both the same way, as
+% "local-upstream" entries (candidates for registry rows) in its notation/course-local-math.yml.
+\providecommand{\PtyLab}{\mathrm{Z}}% labor-augmenting productivity
+\providecommand{\Ham}{\mathcal{H}}% the (discounted) Hamiltonian
