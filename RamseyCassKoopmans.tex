@@ -53,9 +53,9 @@ and $\PtyLab$ is an index of labor productivity that grows at rate
 
 Thus, technological progress allows each worker to
 produce perpetually more as time goes by with the same amount of
-physical capital.  The quantity $\PtyLab \LLvl$ is known as the number of `efficiency units' of labor in the economy.\marginFootnote{This is the definition of `labor-augmenting' (Harrod-neutral) productivity growth. Progress can also augment capital, $\FFunc(\PtyLab \KLvl,\LLvl)$ (`Solow-neutral'), or output, $\PtyLab \FFunc(\KLvl,\LLvl)$ (`Hicks-neutral'). With a Cobb-Douglas production function the three are the same thing at different rates. With any other production function, a steady state with constant growth rates requires progress to be labor-augmenting (Uzawa 1961; Jones and Scrimgeour 2008 give a short proof).
+physical capital.  The quantity $\PtyLab \LLvl$ is known as the number of `efficiency units' of labor in the economy.\marginFootnote{This is the definition of `labor-augmenting' (Harrod-neutral) productivity growth. Progress can also augment capital, $\FFunc(\PtyLab \KLvl,\LLvl)$ (`Solow-neutral'), or output, $\PtyLab \FFunc(\KLvl,\LLvl)$ (`Hicks-neutral'). With a Cobb-Douglas production function the three are the same thing at different rates. With any other production function, a steady state with constant growth rates requires progress to be labor-augmenting \citep{uzawaNeutral}; \citet{jonesScrimgeourUzawa} give a short proof.
 
-    Writing progress in $\PtyLab \LLvl$ form is a peculiar assumption; it seems more natural to imagine technology embodied in new $\KLvl$. Solow (1960) and Phelps (1962) showed that steady-state growth does not depend on how much of technical progress is embodied in new capital, though convergence is faster the more of it is embodied; so the simpler disembodied form delivers the same steady-state growth rate.}
+    Writing progress in $\PtyLab \LLvl$ form is a peculiar assumption; it seems more natural to imagine technology embodied in new $\KLvl$. \citet{solowEmbodied} and \citet{phelpsNewView} showed that steady-state growth does not depend on how much of technical progress is embodied in new capital, though convergence is faster the more of it is embodied; so the simpler disembodied form delivers the same steady-state growth rate.}
 
 Aggregate capital accumulates according to
 \begin{equation}\begin{gathered}\begin{aligned}
@@ -170,7 +170,7 @@ depreciation is greater, or technological progress occurs more rapidly.
 
 While the RCK model has an analytical solution for its steady-state,
 it does not in general have an analytical solution for the transition to the
-steady-state.\marginFootnote{The exception is the case in which the coefficient of relative risk aversion equals the capital share, $\CRRA = \kapShare$ (Smith 2006). The saddle path is then the ray $\cNrm = \left((\discRte + (1-\kapShare)(\PopnGroRte+\deprRte))/\kapShare\right)\kap$ through the steady state; along it, $\dot{\kap} = \kap^{\kapShare} - \left((\discRte+\PopnGroRte+\deprRte)/\kapShare + \PtyGroRte\right)\kap$ is a Bernoulli equation, so the transition has a closed form.}  The usual method for analyzing
+steady-state.\marginFootnote{The exception is the case in which the coefficient of relative risk aversion equals the capital share, $\CRRA = \kapShare$ \citep{smithClosedForm}. The saddle path is then the ray $\cNrm = \left((\discRte + (1-\kapShare)(\PopnGroRte+\deprRte))/\kapShare\right)\kap$ through the steady state; along it, $\dot{\kap} = \kap^{\kapShare} - \left((\discRte+\PopnGroRte+\deprRte)/\kapShare + \PtyGroRte\right)\kap$ is a Bernoulli equation, so the transition has a closed form.}  The usual method for analyzing
 models of this kind is a \href{https://en.wikipedia.org/wiki/Phase_diagram}{phase diagram} in $\cNrm$ and $\kap$.
 
 The first step in constructing the phase diagram is to take the differential
@@ -242,7 +242,7 @@ How much of observed growth can the transition explain? Little, \citet{king&rebe
 
   The most straightforward method of numerical solution for perfect foresight
   models of this kind is called the
-  `time elimination' method (Mulligan and Sala-i-Martin 1993).  It starts from the fact that
+  `time elimination' method \citep{Mulligan&sm:transdynam}.  It starts from the fact that
   \begin{equation}\begin{gathered}\begin{aligned}
     \left(\frac{d\cNrm/dt}{d\kap/dt}\right) &=  d\cNrm/d\kap.
   \end{aligned}\end{gathered}\end{equation}

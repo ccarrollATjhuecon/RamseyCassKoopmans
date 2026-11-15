@@ -244,7 +244,7 @@ def handout_words(t):
     t = re.sub(r'\\label\{[^}]*\}', '', t)
     t = re.sub(r'\\eqref\{([^}]*)\}', lambda m: 'EQ' + strip_label(m[1]), t)
     t = re.sub(r'[Ff]igure~\\ref\{([^}]*)\}', lambda m: 'FIGREF' + strip_label(m[1]), t)
-    t = re.sub(r'\\cite[tp]?\{([^}]*)\}', r'CITE\1', t)
+    t = re.sub(r'\\cite([tp]?)\{([^}]*)\}', lambda m: ('CITEP' if m[1] == 'p' else 'CITET') + m[2], t)  # textual or parenthetical
     t = re.sub(r'\\includegraphics(\[[^\]]*\])?\{[^}]*\}', '', t)
     t = re.sub(r'\\(begin|end)\{figure\}', '', t)
     t = re.sub(r'\\(notag|medskip|pagebreak|centering|centerline|LARGE|Large|bf|small|par)\b', '', t)
@@ -299,7 +299,7 @@ def book_words(b, raw_used):
     b = re.sub(r'\{math\}`([^`]*)`', lambda m: book_math(m[1], raw_used), b)
     b = re.sub(r'\{eq\}`([^`]*)`', lambda m: 'EQ' + strip_label(m[1]), b)
     b = re.sub(r'\{numref\}`([^`]*)`', lambda m: 'FIGREF' + strip_label(m[1]), b)
-    b = re.sub(r'\{cite:[tp]\}`([^`]*)`', r'CITE\1', b)
+    b = re.sub(r'\{cite:([tp])\}`([^`]*)`', lambda m: 'CITE' + m[1].upper() + m[2], b)
     b = re.sub(r'^\([A-Za-z:-]+\)=$', '', b, flags=re.M)
     b = re.sub(r'^#+ ', '', b, flags=re.M)
     b = re.sub(r'\[([^\]]*)\]\((?:\\.|[^)\\])*\)', r'\1', b)
