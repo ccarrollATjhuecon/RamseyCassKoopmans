@@ -23,6 +23,11 @@ print only with the MarginNotes option), equation labels, citations, external li
 figure files, and the symbols the macros render. It ignores macro names that render the
 same, quotation marks and emphasis, and does not compare the bibliography's entries.
 
+It also checks the handout alone for raw letters: every letter in its math that names an
+object must be written with its macro (rule D, Chris, 2026-11-15), and a raw letter passes
+only if RAW_ALLOWED says what non-object it is (a date, Euler's e, a differential, a dummy
+or a throwaway letter).
+
 A difference that should stay goes in one of the ACCEPTED lists below, with its reason.
 An entry that no longer matches anything is reported too, so the lists can't go stale.
 The handout's symbols are read from the registry's KaTeX file, the published twin of the
@@ -100,6 +105,26 @@ ACCEPTED_SYMBOLS = {
     'CLvl': BOLD, 'YLvl': BOLD, 'KLvl': BOLD, 'LLvl': BOLD,
     'uFunc': "the registry's utility function, upright; the book still writes \\util, an italic u",
 }
+
+# Rule D (Chris, 2026-11-15, typed in cc:course-choice: "I want you to ensure that the handouts/chapters
+# always use the macro for the object, rather than writing it in plain latex; e.g., there should never
+# be simply "$C$" but instead "$\CLvl$" etc"). Every letter in the handout's math that names an object
+# is written with its macro, the registry's or @local's. A raw letter, Latin or a Greek command such as
+# \lambda, passes only where one of these patterns matches at it; each names what the letter is.
+GREEK = ('alpha beta gamma delta epsilon varepsilon zeta eta theta vartheta iota kappa varkappa lambda mu nu '
+         'xi pi varpi rho varrho sigma varsigma tau upsilon phi varphi chi psi omega '
+         'Gamma Delta Theta Lambda Xi Pi Sigma Upsilon Phi Psi Omega ell').split()
+RAW_ALLOWED = [
+    (r't(?![A-Za-z])', 'the date'),
+    (r'e(?=\s*\^)', "Euler's e"),
+    (r'd(?=\s*(?:[A-Za-z]|\\[A-Za-z]))', 'the differential, as in dt'),
+    (r'\\tau(?![A-Za-z])', 'the dummy of integration in the transversality condition'),
+    (r'\\epsilon(?![A-Za-z])', 'a small perturbation, a throwaway letter (Chris, 2026-11-11: "Defined names only")'),
+]
+
+# Letters the book's chapter still writes raw, where the handout writes the macro that prints the same
+# letter (rule D): (the book's raw letter, the handout's macro). Read only inside the book's math.
+RAW_IN_BOOK = {'c': 'cNrm', 'k': 'kap', '\\lambda': 'vk'}
 
 COMMENT = r'(?<!\\)%.*$'
 BOOK_DIR = None  # a local checkout of the book, from --book-dir
@@ -242,7 +267,22 @@ def take_book_margins(md):
     return re.sub(r'^:::\{margin\}\n.*?\n:::$', '', md, flags=re.M | re.S), notes
 
 
-def book_words(b):
+def raw_pattern(letter):
+    """A raw letter, Latin or a Greek command, not inside a longer command name."""
+    if letter.startswith('\\'):
+        return re.escape(letter) + r'(?![A-Za-z])'
+    return r'(?<![\\A-Za-z])' + re.escape(letter) + r'(?![A-Za-z])'
+
+
+def book_math(s, raw_used):
+    """The book's math, with the raw letters of RAW_IN_BOOK written as the handout's macros."""
+    for letter, macro in RAW_IN_BOOK.items():
+        s, n = re.subn(raw_pattern(letter), lambda m: '\\' + macro, s)
+        raw_used[letter] = raw_used.get(letter, 0) + n
+    return s
+
+
+def book_words(b, raw_used):
     """A page's words, already rewritten into the handout's macro names."""
     b = re.sub(r'^- ', '', b, flags=re.M)  # list items, which the handout writes as \item
     footnotes = {}
@@ -254,8 +294,9 @@ def book_words(b):
     b = re.sub(r'^\[\^([\w-]+)\]:[ \n]((?:.*\n?)(?:(?:[ ]{4}.*|)\n)*)', keep, b, flags=re.M)
     b = re.sub(r'\[\^([\w-]+)\]', lambda m: ' FOOT ' + footnotes.get(m[1], 'MISSING') + ' ENDFOOT ', b)
     b = re.sub(r'^:::\{figure\}.*$|^:name:.*$|^:align:.*$|^:::$|^:label:.*$', '', b, flags=re.M)
-    b = b.replace('```{math}', '').replace('```', '')
-    b = re.sub(r'\{math\}`([^`]*)`', r'\1', b)
+    b = re.sub(r'```\{math\}(.*?)```', lambda m: book_math(m[1], raw_used), b, flags=re.S)
+    b = b.replace('```', '')
+    b = re.sub(r'\{math\}`([^`]*)`', lambda m: book_math(m[1], raw_used), b)
     b = re.sub(r'\{eq\}`([^`]*)`', lambda m: 'EQ' + strip_label(m[1]), b)
     b = re.sub(r'\{numref\}`([^`]*)`', lambda m: 'FIGREF' + strip_label(m[1]), b)
     b = re.sub(r'\{cite:[tp]\}`([^`]*)`', r'CITE\1', b)
@@ -388,6 +429,40 @@ def compare_symbols(md, tex_body, book_table, hand_table, problems):
     return len(differing)
 
 
+def check_raw_letters(plain, problems):
+    """Rule D: report each raw letter in the handout's math that no RAW_ALLOWED entry explains.
+
+    `plain` is the handout without its comments, so its line numbers are the file's. The math is
+    the contents of equation environments and of $...$. Returns how many letters each entry explained."""
+    start = plain.index('\\begin{document}')
+    body = plain[start:]
+    envs = re.compile(r'\\begin\{(equation\*?)\}(.*?)\\end\{\1\}', re.S)
+    spans = [(m.start(2), m[2]) for m in envs.finditer(body)]
+    outside = envs.sub(lambda m: ' ' * len(m[0]), body)
+    spans += [(m.start(1), m[1]) for m in re.finditer(r'(?<!\\)\$(.+?)(?<!\\)\$', outside, re.S)]
+
+    def blank(m):
+        return ' ' * len(m[0])
+
+    explained, found = {}, []
+    for offset, span in spans:
+        # Blank out what isn't a letter of the math: environment names, labels and text, then every
+        # command except a Greek letter.
+        masked = re.sub(r'\\(?:begin|end|label|text|textrm|mbox|operatorname)\{[^{}]*\}', blank, span)
+        masked = re.sub(r'\\[A-Za-z]+', lambda m: m[0] if m[0][1:] in GREEK else blank(m), masked)
+        masked = re.sub(r'\\[^A-Za-z]', blank, masked)
+        for m in re.finditer(r'\\[A-Za-z]+|[A-Za-z]', masked):
+            allowed = next((p for p, _ in RAW_ALLOWED if re.compile(p).match(span, m.start())), None)
+            if allowed:
+                explained[allowed] = explained.get(allowed, 0) + 1
+                continue
+            line = plain.count('\n', 0, start + offset + m.start()) + 1
+            near = ' '.join(span[max(0, m.start() - 30):m.end() + 30].split())
+            found.append((line, f'Raw letter {m[0]} on line {line} (rule D: write the object with its macro): ... {near} ...'))
+    problems.extend(text for _, text in sorted(found))
+    return explained
+
+
 def book_macro_table(ref):
     table = read_macros(need(ref, REGISTRY))
     table.update(read_macros(need(ref, 'notation/course-local-math.yml')))
@@ -421,17 +496,17 @@ def main():
         return 2
 
     problems = []
-    used = {}
+    used, raw_used = {}, {}
     compare_title(tex, md, problems)
 
     # The handout's text: the body from START to the bibliography, then the numerical appendix.
     hand_text, hand_margins = take_margins(between(tex, START, '\\bibliographystyle') + '\n'
                                            + between(tex, APPENDIX_HEAD, APPENDIX_END))
     book_text, book_margins = take_book_margins(book_rewrite(md[md.index(START):], used))
-    matched = compare_words(handout_words(hand_text), book_words(book_text), ACCEPTED_TEXT, problems)
+    matched = compare_words(handout_words(hand_text), book_words(book_text, raw_used), ACCEPTED_TEXT, problems)
     for i in range(max(len(hand_margins), len(book_margins))):
         h = handout_words(hand_margins[i]) if i < len(hand_margins) else []
-        b = book_words(book_margins[i]) if i < len(book_margins) else []
+        b = book_words(book_margins[i], raw_used) if i < len(book_margins) else []
         compare_words(h, b, [], problems, what=f'Margin note {i + 1}')
     for entry in ACCEPTED_TEXT:
         if entry not in matched:
@@ -439,6 +514,9 @@ def main():
     for pattern, _, _ in ACCEPTED_REWRITES:
         if not used.get(pattern):
             problems.append(f'No longer needed in ACCEPTED_REWRITES: {pattern}')
+    for letter, macro in RAW_IN_BOOK.items():
+        if not raw_used.get(letter):
+            problems.append(f'No longer needed in RAW_IN_BOOK: the book no longer writes a raw {letter} (\\{macro})')
 
     links_used = set()
     compare_marks(plain, md, problems, links_used)
@@ -459,8 +537,16 @@ def main():
     hand_table.update(dict(re.findall(r'^\\providecommand\{\\(\w+)\}\{(.*)\}\s*%', sty, re.M)))
     n_sym = compare_symbols(md, plain[plain.index('\\begin{document}'):], book_table, hand_table, problems)
 
+    explained = check_raw_letters(plain, problems)
+    for pattern, why in RAW_ALLOWED:
+        if not explained.get(pattern):
+            problems.append(f'No longer needed in RAW_ALLOWED: {why} ({pattern})')
+
     print(f'Compared the handout with the chapter {chapter} in {book_name}.')
-    print(f'Accepted: {len(matched)} wording differences, {n_sym} symbols that render differently.')
+    print(f'Accepted: {len(matched)} wording differences, {n_sym} symbols that render differently, '
+          f'{sum(raw_used.values())} raw letters in the book that the handout writes with macros.')
+    print(f'Raw letters in the handout\'s math: {sum(explained.values())}, each a date, Euler\'s e, a differential, '
+          'a dummy or a throwaway letter (RAW_ALLOWED).')
     if not problems:
         print('Nothing to resolve.')
         return 0

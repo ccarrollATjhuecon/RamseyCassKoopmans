@@ -6,7 +6,7 @@ solves the model and draws its figures.
 - `RamseyCassKoopmans.tex` and `RamseyCassKoopmans.pdf` are the handout. Its source is the chapter
   [The Ramsey/Cass-Koopmans (RCK) Model](https://intertemporal-choice.github.io/content/growth/ramseycasskoopmans/)
   of the book *Intertemporal Choice*: edits start there, and `./check-book-sync.py` reports any
-  difference between the two.
+  difference between the two, and any object the handout writes as a raw letter instead of its macro.
 - `RamseyCassKoopmans.ipynb` is a copy of the notebook beside the book's chapter. It writes the figures in
   `Figures/`. Run it in
   [Binder](https://mybinder.org/v2/gh/ccarrollATjhuecon/RamseyCassKoopmans/master?labpath=RamseyCassKoopmans.ipynb)
