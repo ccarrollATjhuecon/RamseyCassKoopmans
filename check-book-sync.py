@@ -18,8 +18,8 @@ Numerical Solution", and the handout's text behind its NumericalSolution switch.
 compared, as one text with the rest.
 
 It compares the title, the wording (headings, equations, footnotes, figure captions),
-margin notes (the chapter's margin blocks against the handout's \\marginpar notes, which
-print only with the MarginNotes option), equation labels, citations, external links, the
+margin notes (the chapter's margin blocks, in order, against the handout's \\marginFootnote
+notes, which print as footnotes), equation labels, citations, external links, the
 figure files, and the symbols the macros render. It ignores macro names that render the
 same, quotation marks and emphasis, and does not compare the bibliography's entries.
 
@@ -101,7 +101,7 @@ ACCEPTED_LINKS = [
 OVERRIDE = "the book's course-local override, to be substituted by the registry's rendering"
 BOLD = 'the registry\'s bold level (Chris, 2026-11-14, "All bold levels"); the book still prints a plain letter'
 ACCEPTED_SYMBOLS = {
-    'CRRA': OVERRIDE, 'PtyGroRte': OVERRIDE, 'PopnGroRte': OVERRIDE,
+    'PtyGroRte': OVERRIDE, 'PopnGroRte': OVERRIDE,
     'CLvl': BOLD, 'YLvl': BOLD, 'KLvl': BOLD, 'LLvl': BOLD,
     'uFunc': "the registry's utility function, upright; the book still writes \\util, an italic u",
 }
