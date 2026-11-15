@@ -358,11 +358,13 @@ def compare_marks(plain, md, problems, links_used):
     macros = link_macros()
     h_links = {}
     for url, text in re.findall(r'\\href\{([^}]*)\}\{([^}]*)\}', plain):
-        h_links.setdefault(text, []).append(re.sub(r'^\\(\w+)$', lambda m: macros.get(m[1], m[0]), url))
+        url = re.sub(r'^\\(\w+)$', lambda m: macros.get(m[1], m[0]), url)
+        # LaTeX escapes % and # in \href; either side may percent-encode a character such as an en dash
+        h_links.setdefault(text, []).append(urllib.parse.unquote(url.replace('\\%', '%').replace('\\#', '#')))
     b_links = {}
     own = set(re.findall(r'^\s*:label:\s*(\S+)', md, re.M))
     for text, url in re.findall(r'\[([^\]]*)\]\(((?:\\.|[^)\\])*)\)', md):
-        url = re.sub(r'\\([()])', r'\1', url)
+        url = urllib.parse.unquote(re.sub(r'\\([()])', r'\1', url))
         if url.startswith('#'):
             if url[1:] in own:
                 continue  # a link within the chapter; the handout's \hyperref isn't compared
