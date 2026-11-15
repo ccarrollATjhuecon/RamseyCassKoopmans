@@ -82,21 +82,21 @@ sum of CRRA utility from per-capita consumption:\footnote{This objective counts 
   \max \int_{0}^{\infty} \left(\frac{(\CLvl/\LLvl)^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}\,dt . \label{eq:RCK-maxprob}
 \end{equation}
 
-But $\CLvl/\LLvl = \PtyLab (\CLvl/\PtyLab \LLvl)= \PtyLab c$.  Recall that for a variable growing at rate $\PtyGroRte$,
+But $\CLvl/\LLvl = \PtyLab (\CLvl/\PtyLab \LLvl)= \PtyLab \cNrm$.  Recall that for a variable growing at rate $\PtyGroRte$,
 \begin{equation}\begin{gathered}\begin{aligned}
   \PtyLab _{t} & =  \PtyLab _{0}e^{\PtyGroRte t}
 \end{aligned}\end{gathered}\end{equation}
 so if the economy started off in period 0 with productivity $\PtyLab_{0}$, by date $t$ we can rewrite
 \begin{equation}\begin{gathered}\begin{aligned}
-  \CLvl/\LLvl & =  c\PtyLab   \\
-               & =  c\PtyLab _{0}e^{\PtyGroRte t}. \label{eq:cRat}
+  \CLvl/\LLvl & =  \cNrm\PtyLab   \\
+               & =  \cNrm\PtyLab _{0}e^{\PtyGroRte t}. \label{eq:cRat}
 \end{aligned}\end{gathered}\end{equation}
 
 Using \eqref{eq:cRat} and the other results above, we can rewrite the social planner's objective function as
 \begin{equation}\begin{gathered}\begin{aligned}
-  \int_{0}^{\infty} \left(\frac{(\PtyLab c)^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}\,dt & =
+  \int_{0}^{\infty} \left(\frac{(\PtyLab \cNrm)^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}\,dt & =
   \PtyLab _{0}^{1-\CRRA}\int_{0}^{\infty} \left(\frac{\cNrm^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}e^{(1-\CRRA)\PtyGroRte  t}\,dt
-  \\ & =  \PtyLab _{0}^{1-\CRRA}\int_{0}^{\infty} \uFunc(c) e^{\left((1-\CRRA)\PtyGroRte -\discRte \right) t}\,dt
+  \\ & =  \PtyLab _{0}^{1-\CRRA}\int_{0}^{\infty} \uFunc(\cNrm) e^{\left((1-\CRRA)\PtyGroRte -\discRte \right) t}\,dt
            .
            \label{eq:maxprobmod}
 \end{aligned}\end{gathered}\end{equation}
@@ -105,33 +105,33 @@ Thus, assuming $\discRte > (1-\CRRA) \PtyGroRte$, so that the objective is finit
 level of productivity to $\PtyLab _{0}=1$, the complete optimization problem
 can be formulated as
 \begin{equation}
-  \max \int_{0}^{\infty} \uFunc(c) e^{-(\discRte - (1-\CRRA)\PtyGroRte) t}\,dt
+  \max \int_{0}^{\infty} \uFunc(\cNrm) e^{-(\discRte - (1-\CRRA)\PtyGroRte) t}\,dt
 \end{equation}
 subject to
 \begin{equation}
-  \dot{\kap} = \kap^{\kapShare}-\cNrm-(\PopnGroRte+\PtyGroRte+\deprRte)k,
+  \dot{\kap} = \kap^{\kapShare}-\cNrm-(\PopnGroRte+\PtyGroRte+\deprRte)\kap,
 \end{equation}
 which has a discounted Hamiltonian representation
 \begin{equation}
-  \Ham(\kap,c,\lambda) = \uFunc(c) + (\kap^{\kapShare} - \cNrm - (\PopnGroRte+\PtyGroRte+\deprRte)\kap)\lambda.
+  \Ham(\kap,\cNrm,\vk) = \uFunc(\cNrm) + (\kap^{\kapShare} - \cNrm - (\PopnGroRte+\PtyGroRte+\deprRte)\kap)\vk.
 \end{equation}
 
 The first \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)}{discounted Hamiltonian optimization condition} requires $\partial
 \Ham/\partial \cNrm = 0$:
 \begin{equation}\begin{gathered}\begin{aligned}
-  c^{-\CRRA} & =  \lambda  \label{eq:RCK-H1A} \\
-  -\CRRA c^{-\CRRA-1}\dot{\cNrm} & =  \dot{\lambda}
+  \cNrm^{-\CRRA} & =  \vk  \label{eq:RCK-H1A} \\
+  -\CRRA \cNrm^{-\CRRA-1}\dot{\cNrm} & =  \dot{\vk}
                                        .
 \end{aligned}\end{gathered}\end{equation}
 
 The second discounted Hamiltonian optimization condition requires:
 \begin{equation}\begin{gathered}\begin{aligned}
-  \dot{\lambda} & =  (\discRte-(1-\CRRA)\PtyGroRte)\lambda - \partial \Ham/\partial \kap  \\
-                & =  (\discRte-(1-\CRRA)\PtyGroRte)\lambda - \lambda (\fFunc^{\prime}(\kap) - (\PopnGroRte+\PtyGroRte+\deprRte))  \\
-  \dot{\lambda}/{\lambda} & =  \discRte+\PopnGroRte+\deprRte+\CRRA \PtyGroRte-\fFunc^{\prime}(\kap) .
+  \dot{\vk} & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \partial \Ham/\partial \kap  \\
+                & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \vk (\fFunc^{\prime}(\kap) - (\PopnGroRte+\PtyGroRte+\deprRte))  \\
+  \dot{\vk}/{\vk} & =  \discRte+\PopnGroRte+\deprRte+\CRRA \PtyGroRte-\fFunc^{\prime}(\kap) .
 \end{aligned}\end{gathered}\end{equation}
 
-Since \eqref{eq:RCK-H1A} gives $\dot{\lambda}/\lambda = -\CRRA\dot{\cNrm}/\cNrm$, this is
+Since \eqref{eq:RCK-H1A} gives $\dot{\vk}/\vk = -\CRRA\dot{\cNrm}/\cNrm$, this is
 \begin{equation}
   \dot{\cNrm}/\cNrm = \CRRA^{-1}(\fFunc^{\prime}(\kap)-(\PopnGroRte+\deprRte)-\discRte - \CRRA \PtyGroRte), \label{eq:cdotOc}
 \end{equation}
