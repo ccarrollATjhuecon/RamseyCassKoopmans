@@ -18,8 +18,9 @@ Numerical Solution", and the handout's text behind its NumericalSolution switch.
 compared, as one text with the rest.
 
 It compares the title, the wording (headings, equations, footnotes, figure captions),
-margin notes (the chapter's margin blocks, in order, against the handout's \\marginFootnote
-notes, which print as footnotes), equation labels, citations, external links, the
+margin notes (the chapter's margin blocks against the handout's \\marginFootnote notes, which
+print as footnotes, paired by their words so that a note on one side only is one difference),
+equation labels, citations, external links, the
 figure files, and the symbols the macros render. It ignores macro names that render the
 same, quotation marks and emphasis, and does not compare the bibliography's entries.
 
@@ -333,6 +334,36 @@ def compare_words(hand, book, accepted, problems, what='Wording'):
     return matched
 
 
+def align_notes(hand, book, least=0.4):
+    """Pair the handout's margin notes with the chapter's by their words, keeping both orders.
+
+    Returns (i, j) pairs: j None for a note only in the handout, i None for one only in the book.
+    Two notes pair only if difflib finds them at least `least` alike, so one note added or removed
+    on either side is reported as that one note, and the notes after it still pair with their own."""
+    def alike(a, b):
+        return difflib.SequenceMatcher(None, a, b, autojunk=False).ratio()
+
+    n, m = len(hand), len(book)
+    best = [[0.0] * (m + 1) for _ in range(n + 1)]  # best[i][j]: the most likeness pairing hand[i:] with book[j:]
+    for i in range(n - 1, -1, -1):
+        for j in range(m - 1, -1, -1):
+            r = alike(hand[i], book[j])
+            best[i][j] = max(best[i + 1][j], best[i][j + 1], r + best[i + 1][j + 1] if r >= least else 0.0)
+    pairs, i, j = [], 0, 0
+    while i < n and j < m:
+        r = alike(hand[i], book[j])
+        if r >= least and best[i][j] == r + best[i + 1][j + 1]:
+            pairs.append((i, j))
+            i, j = i + 1, j + 1
+        elif best[i][j] == best[i + 1][j]:
+            pairs.append((i, None))
+            i += 1
+        else:
+            pairs.append((None, j))
+            j += 1
+    return pairs + [(k, None) for k in range(i, n)] + [(None, k) for k in range(j, m)]
+
+
 def link_macros():
     """The addresses the handout names with macros in @local/dir-paths.tex, such as \\NotebookColab."""
     text = open(os.path.join(HERE, '@local', 'dir-paths.tex'), encoding='utf8').read()
@@ -513,10 +544,16 @@ def main():
                                            + between(tex, APPENDIX_HEAD, APPENDIX_END))
     book_text, book_margins = take_book_margins(book_rewrite(md[md.index(START):], used))
     matched = compare_words(handout_words(hand_text), book_words(book_text, raw_used), ACCEPTED_TEXT, problems)
-    for i in range(max(len(hand_margins), len(book_margins))):
-        h = handout_words(hand_margins[i]) if i < len(hand_margins) else []
-        b = book_words(book_margins[i], raw_used) if i < len(book_margins) else []
-        compare_words(h, b, [], problems, what=f'Margin note {i + 1}')
+    hand_notes = [handout_words(n) for n in hand_margins]
+    book_notes = [book_words(n, raw_used) for n in book_margins]
+    for i, j in align_notes(hand_notes, book_notes):
+        if j is None:
+            problems.append(f'Margin note only in the handout: "{" ".join(hand_notes[i][:12])} ..."')
+        elif i is None:
+            problems.append(f'Margin note only in the book: "{" ".join(book_notes[j][:12])} ..."')
+        else:
+            compare_words(hand_notes[i], book_notes[j], [], problems,
+                          what=f'Margin note "{" ".join(book_notes[j][:6])} ..."')
     for entry in ACCEPTED_TEXT:
         if entry not in matched:
             problems.append(f'No longer needed in ACCEPTED_TEXT: {entry[1]!r} / {entry[2]!r}')
