@@ -83,6 +83,7 @@ ACCEPTED_TEXT = [
 # (Chris, 2026-11-14: link to the book's page).
 CROSS_CHAPTER = {
     '#eq:PFCRRA-cgrow': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow',
+    '#eq:PatWGroCond': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-patwgrocond',
 }
 
 # The notebook beside the chapter, of which the handout keeps an identical copy beside it
