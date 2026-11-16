@@ -410,6 +410,14 @@ def compare_figures(ref, chapter, md, problems):
             problems.append(f'Figure {name} differs from the book\'s {full}')
 
 
+def one_argument_same(a, b):
+    """Whether two expanded definitions print the same once applied to one argument: \\bar and
+    \\bar{#1} (which expands to \\bar#1) both put a bar over it. KaTeX macros may leave the argument implicit."""
+    def bare(d):
+        return d[:-2] if d.endswith('#1') and d.count('#') == 1 else d
+    return bare(a) == bare(b)
+
+
 def compare_symbols(md, tex_body, book_table, hand_table, problems):
     differing = set()
     hand_used = set(re.findall(r'\\([A-Za-z]+)', tex_body))
@@ -418,7 +426,7 @@ def compare_symbols(md, tex_body, book_table, hand_table, problems):
         if h not in hand_used:
             continue
         b_def, h_def = expand('\\' + c, book_table), expand('\\' + h, hand_table)
-        if b_def == h_def:
+        if b_def == h_def or one_argument_same(b_def, h_def):
             continue
         if h in ACCEPTED_SYMBOLS:
             differing.add(h)
