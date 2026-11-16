@@ -360,7 +360,8 @@ def compare_marks(plain, md, problems, links_used):
         # LaTeX escapes % and # in \href; either side may percent-encode a character such as an en dash
         h_links.setdefault(text, []).append(urllib.parse.unquote(url.replace('\\%', '%').replace('\\#', '#')))
     b_links = {}
-    own = set(re.findall(r'^\s*:label:\s*(\S+)', md, re.M))
+    # the chapter's own targets: equation labels, and (label)= lines before headings
+    own = set(re.findall(r'^\s*:label:\s*(\S+)', md, re.M)) | set(re.findall(r'^\(([^()\s]+)\)=$', md, re.M))
     for text, url in re.findall(r'\[([^\]]*)\]\(((?:\\.|[^)\\])*)\)', md):
         url = urllib.parse.unquote(re.sub(r'\\([()])', r'\1', url))
         if url.startswith('#'):

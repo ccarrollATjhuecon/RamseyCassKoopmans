@@ -62,7 +62,7 @@ Aggregate capital accumulates according to
   \dot{\KLvl} & =  \YLvl - \CLvl - \deprRte \KLvl \label{eq:Kdotlevel}.
 \end{aligned}\end{gathered}\end{equation}
 
-Lower case variables are the upper case version divided by efficiency units,\marginFootnote{NOT divided by population; the reasons will emerge below.} so $\yNrm = \YLvl/(\PtyLab \LLvl) = (\KLvl/\PtyLab \LLvl)^{\kapShare} = \kap^{\kapShare}$. Since $\kap = \KLvl/(\PtyLab \LLvl)$,
+Lower case variables are the upper case version divided by efficiency units,\marginFootnote{NOT per-capita; this is required for `\hyperref[sec:RCK-SteadyState]{balanced growth}'.} so $\yNrm = \YLvl/(\PtyLab \LLvl) = (\KLvl/\PtyLab \LLvl)^{\kapShare} = \kap^{\kapShare}$. Since $\kap = \KLvl/(\PtyLab \LLvl)$,
 \begin{equation}
   \dot{\kap}/\kap = \dot{\KLvl}/\KLvl - \dot{\PtyLab}/\PtyLab - \dot{\LLvl}/\LLvl = \dot{\KLvl}/\KLvl - (\PtyGroRte +\PopnGroRte),
 \end{equation}
@@ -146,7 +146,7 @@ time as $\fFunc^{\prime}(\kap)$ varies.
 
 Since per capita consumption is $\CLvl/\LLvl = \cNrm \PtyLab$, it grows at $\dot{\cNrm}/\cNrm + \PtyGroRte = \CRRA^{-1}(\fFunc^{\prime}(\kap)-(\PopnGroRte+\deprRte)-\discRte)$: the same formula, as a function of $\kap$, as in the model with no productivity growth, the \hyperref[eq:cdotOc]{Euler equation} with $\PtyGroRte=0$. Productivity growth matters only through $\kap$.
 
-\section{The Steady State}
+\section{The Steady State}\label{sec:RCK-SteadyState}
 
 The assumption of labor augmenting technological progress was made
 because it implies that in steady-state, per-capita consumption, income,
