@@ -68,10 +68,7 @@ BOOK_TO_HANDOUT = {
 }
 
 # (book pattern, what the handout writes, why the difference is accepted)
-ACCEPTED_REWRITES = [
-    (r'\\check\{([^{}]*)\}', r'\\Steady{\1}',
-     "the registry's steady-state mark, a bar (\\Steady); the book still writes the course's check"),
-]
+ACCEPTED_REWRITES = []  # the chapter's \check{\kap} became \Steady{\kap} in book #102 (09ee17a)
 
 # (the handout's words just before it, handout words, book words, why accepted)
 # Words are as tokenized, with spaces between them.
@@ -99,12 +96,12 @@ ACCEPTED_LINKS = [
      'https://mybinder.org/v2/gh/ccarrollATjhuecon/RamseyCassKoopmans/master?labpath=RamseyCassKoopmans.ipynb', OWN_COPY),
 ]
 
-# Handout macros that render differently from the book's, and why.
-BOLD = 'the registry\'s bold level (Chris, 2026-11-14, "All bold levels"); the book still prints a plain letter'
-ACCEPTED_SYMBOLS = {
-    'CLvl': BOLD, 'YLvl': BOLD, 'KLvl': BOLD, 'LLvl': BOLD,
-    'uFunc': "the registry's utility function, upright; the book still writes \\util, an italic u",
-}
+# A symbol that prints differently in the handout and the chapter is a difference to resolve, never an
+# accepted one: the side that departs from the registry changes. Chris, 2026-11-16 11:11:13 EST, of the
+# chapter's italic u against the handout's upright \uFunc, which this list had accepted: "This is exactly
+# the kind of thing that should be sync'd when we sync handout and chapter". The list stays only for a
+# difference he rules should stay, with his words; it is empty.
+ACCEPTED_SYMBOLS = {}
 
 # Rule D (Chris, 2026-11-15, typed in cc:course-choice: "I want you to ensure that the handouts/chapters
 # always use the macro for the object, rather than writing it in plain latex; e.g., there should never
@@ -464,7 +461,7 @@ def compare_symbols(md, tex_body, book_table, hand_table, problems):
         if h in ACCEPTED_SYMBOLS:
             differing.add(h)
         else:
-            problems.append(f'Symbol: book \\{c} is {b_def}, handout \\{h} is {h_def}')
+            problems.append(f'Prints differently: the chapter\'s \\{c} prints {b_def}, the handout\'s \\{h} prints {h_def}')
     for h in sorted(set(ACCEPTED_SYMBOLS) - differing):
         problems.append(f'No longer needed in ACCEPTED_SYMBOLS: \\{h} now agrees with the book, or is unused')
     return len(differing)
@@ -597,8 +594,9 @@ def main():
     if not problems:
         print('Nothing to resolve.')
         return 0
-    print(f'\n{len(problems)} to resolve. The book is the source: carry its version into the handout,')
-    print('or add the difference to an ACCEPTED list in this script if it should stay.\n')
+    print(f'\n{len(problems)} to resolve. The book is the source of the wording: carry its version into the handout.')
+    print('A symbol that prints differently is resolved by the side that departs from the registry, usually the')
+    print("book's course macros. Only a difference Chris rules should stay goes in an ACCEPTED list.\n")
     for p in problems:
         print('- ' + p)
     return 1
