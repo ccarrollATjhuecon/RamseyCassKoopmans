@@ -58,14 +58,11 @@ LOCAL_STY = os.path.join('@local', 'RamseyCassKoopmans.sty')
 APPENDIX_HEAD = '\\centerline{\\bf \\Large Appendix: Numerical Solution}'
 APPENDIX_END = '\n}{}'
 
-# The book's course macros and the registry names the handout uses for the same objects
-# (the registry's names as the book's notation/course-local-math.yml gives them, and the
-# registry's bold levels for C, Y, K and L: Chris, 2026-11-14, "All bold levels").
-BOOK_TO_HANDOUT = {
-    'cons': 'cNrm', 'inc': 'yNrm', 'Cons': 'CLvl', 'Inc': 'YLvl', 'Kap': 'KLvl', 'Labor': 'LLvl',
-    'depr': 'deprRte', 'prodFunc': 'fFunc', 'ProdFunc': 'FFunc', 'timeRate': 'discRte',
-    'ptyGro': 'PtyGroRte', 'popGro': 'PopnGroRte', 'util': 'uFunc',
-}
+# A course macro the chapter writes, and the registry name the handout writes for the same object.
+# Empty since book #104 (a7abe20): the chapter writes the registry's names throughout, under Chris's
+# 2026-11-16 09:28:16 ruling, "I want to eliminate any bespoke definitions like \pGro and replace them
+# with the equivalent from the registry". An entry the chapter no longer uses is reported.
+BOOK_TO_HANDOUT = {}
 
 # (book pattern, what the handout writes, why the difference is accepted)
 ACCEPTED_REWRITES = []  # the chapter's \check{\kap} became \Steady{\kap} in book #102 (09ee17a)
@@ -121,7 +118,8 @@ RAW_ALLOWED = [
 
 # Letters the book's chapter still writes raw, where the handout writes the macro that prints the same
 # letter (rule D): (the book's raw letter, the handout's macro). Read only inside the book's math.
-RAW_IN_BOOK = {'c': 'cNrm', 'k': 'kap', '\\lambda': 'vk'}
+# Empty since book #104 (a7abe20) wrote the chapter's raw c, k and \lambda as \cNrm, \kap and \vk.
+RAW_IN_BOOK = {}
 
 COMMENT = r'(?<!\\)%.*$'
 BOOK_DIR = None  # a local checkout of the book, from --book-dir
@@ -561,6 +559,10 @@ def main():
     for letter, macro in RAW_IN_BOOK.items():
         if not raw_used.get(letter):
             problems.append(f'No longer needed in RAW_IN_BOOK: the book no longer writes a raw {letter} (\\{macro})')
+    book_macros = set(re.findall(r'\\([A-Za-z]+)', md))
+    for course, registry in BOOK_TO_HANDOUT.items():
+        if course not in book_macros:
+            problems.append(f'No longer needed in BOOK_TO_HANDOUT: the chapter no longer writes \\{course} (\\{registry})')
 
     links_used = set()
     compare_marks(plain, md, problems, links_used)
