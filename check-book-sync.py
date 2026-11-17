@@ -111,7 +111,7 @@ GREEK = ('alpha beta gamma delta epsilon varepsilon zeta eta theta vartheta iota
 RAW_ALLOWED = [
     (r't(?![A-Za-z])', 'the date'),
     (r'e(?=\s*\^)', "Euler's e"),
-    (r'd(?=\s*(?:[A-Za-z]|\\[A-Za-z]))', 'the differential, as in dt'),
+    (r'd(?=\s*(?:\^\{?\d\}?\s*)?(?:[A-Za-z]|\\[A-Za-z]))', 'the differential, as in dt or d^{2}c'),
     (r'\\tau(?![A-Za-z])', 'the dummy of integration in the transversality condition'),
     (r'\\epsilon(?![A-Za-z])', 'a small perturbation, a throwaway letter (Chris, 2026-11-11: "Defined names only")'),
 ]
