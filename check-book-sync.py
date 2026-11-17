@@ -79,6 +79,8 @@ CROSS_CHAPTER = {
     '#eq:PFCRRA-cgrow': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow',
     '#eq:PatWGroCond': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-patwgrocond',
     '#sec:HamiltonianVSDiscrete': 'https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/',
+    '#sec:decentralizingrck': 'https://intertemporal-choice.github.io/content/growth/decentralizingrck/',
+    '#sec:RCKWithGov': 'https://intertemporal-choice.github.io/content/growth/rckwithgov/',
 }
 
 # The notebook beside the chapter, of which the handout keeps an identical copy beside it
