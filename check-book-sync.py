@@ -77,7 +77,7 @@ ACCEPTED_TEXT = [
 # (Chris, 2026-11-14: link to the book's page).
 CROSS_CHAPTER = {
     '#eq:PFCRRA-cgrow': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow',
-    '#eq:PatWGroCond': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-patwgrocond',
+    '#fact:eulerstheorem': 'https://intertemporal-choice.github.io/content/appendices/mathematical/mathfactslist/#fact-eulerstheorem',
     '#sec:HamiltonianVSDiscrete': 'https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/',
     '#sec:decentralizingrck': 'https://intertemporal-choice.github.io/content/growth/decentralizingrck/',
     '#sec:RCKWithGov': 'https://intertemporal-choice.github.io/content/growth/rckwithgov/',
