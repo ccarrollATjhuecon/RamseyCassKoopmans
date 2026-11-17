@@ -88,7 +88,7 @@ One more unit of $\kap$ adds $\fFunc^{\prime}(\kap)$ to output, but holding it s
 \section{The Social Planner's Problem}
 
 Now suppose that there is a social planner whose goal is to maximize the discounted
-sum of CRRA utility from per capita consumption:\marginFootnote{This objective counts each date's per capita utility once, as \citet{blanchard&fischer:text} do. \citet{romer:text} weights it by the size of the population, which replaces $\discRte$ with $\discRte-\PopnGroRte$ below, and takes $\PopnGroRte$ out of the steady-state condition.}
+sum of CRRA utility from per capita consumption, with time preference rate $\discRte$:\marginFootnote{This objective counts each date's per capita utility once, as \citet{blanchard&fischer:text} do. \citet{romer:text} weights it by the size of the population, which replaces $\discRte$ with $\discRte-\PopnGroRte$ below, and takes $\PopnGroRte$ out of the steady-state condition.}
 \begin{equation}
   \max \int_{0}^{\infty} \left(\frac{(\CLvl/\LLvl)^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}\,dt . \label{eq:RCK-maxprob}
 \end{equation}
@@ -103,7 +103,7 @@ so if the economy started off at date 0 with productivity $\PtyLab_{0}$, by date
                & =  \cNrm\PtyLab _{0}e^{\PtyGroRte t}. \label{eq:cRat}
 \end{aligned}\end{gathered}\end{equation}
 
-Using \eqref{eq:cRat}, and writing $\uFunc(\cNrm) = \cNrm^{1-\CRRA}/(1-\CRRA)$, we can rewrite the social planner's objective function as
+Using \eqref{eq:cRat}, and writing $\uFunc(\cNrm) = \cNrm^{1-\CRRA}/(1-\CRRA)$, with $\CRRA$ the coefficient of relative risk aversion, we can rewrite the social planner's objective function as
 \begin{equation}\begin{gathered}\begin{aligned}
   \int_{0}^{\infty} \left(\frac{(\PtyLab \cNrm)^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}\,dt & =
   \PtyLab _{0}^{1-\CRRA}\int_{0}^{\infty} \left(\frac{\cNrm^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}e^{(1-\CRRA)\PtyGroRte  t}\,dt
@@ -150,7 +150,7 @@ or, with $\rfree \equiv \fFunc^{\prime}(\kap) - \deprRte$ the interest rate, $\d
 
 This Euler equation is called the ``Keynes-Ramsey rule,'' because it was originally derived by
 Ramsey with an explanation attributed to Keynes.
-It is just like \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow}{the Euler equation in the perfect foresight CRRA model}, with two differences: the return that matters is $\rfree-\PopnGroRte$ rather than $\rfree$, because population growth dilutes each person's capital, and that return varies over time as $\fFunc^{\prime}(\kap)$ does.
+Apart from the $-\PtyGroRte$, which comes from measuring consumption per efficiency unit, it is just like \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow}{the Euler equation in the perfect foresight CRRA model} in continuous time, with two differences: the return that matters is $\rfree-\PopnGroRte$ rather than $\rfree$, because population growth dilutes each person's capital, and that return varies over time as $\fFunc^{\prime}(\kap)$ does.
 
 Since per capita consumption is $\CLvl/\LLvl = \cNrm \PtyLab$, it grows at $\dot{\cNrm}/\cNrm + \PtyGroRte = \CRRA^{-1}(\fFunc^{\prime}(\kap)-(\PopnGroRte+\deprRte)-\discRte)$: the same formula, as a function of $\kap$, as in the model with no productivity growth, the \hyperref[eq:cdotOc]{Euler equation} with $\PtyGroRte=0$. Productivity growth matters only through $\kap$.
 
@@ -197,12 +197,12 @@ the phases in the phase diagram, as illustrated in figure~\ref{fig:RamseySSPlot}
 
 \section{Transition}
 
-The two differential equations and $\kap_{0}$ don't pin down $\cNrm_{0}$: every starting $\cNrm_{0}$ traces a path. The transversality condition picks one:\marginFootnote{The transversality condition is an optimality condition, not the intertemporal budget constraint. The constraint $\kap > 0$ rules out ending with negative wealth in present value; the transversality condition rules out ending with positive wealth in present value, capital that is never consumed. Together they make the intertemporal budget constraint hold with equality; \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} works this out.}
+The two differential equations and $\kap_{0}$ don't pin down $\cNrm_{0}$: every starting $\cNrm_{0}$ traces a path. Together with the requirement that capital stay positive, the transversality condition picks one:\marginFootnote{The transversality condition is an optimality condition, not the intertemporal budget constraint. The requirement that capital stay positive, $\kap > 0$, rules out ending with negative wealth in present value; the transversality condition rules out ending with positive wealth in present value, capital that is never consumed. Together they make the intertemporal budget constraint hold with equality. \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} shows that the condition sets the present value of capital in the far future to zero, in discrete and in continuous time.}
 \begin{equation}\begin{gathered}\begin{aligned}
   \lim_{t \rightarrow \infty} e^{-\int_{0}^{t} (\rfree_{\tau} -\PopnGroRte -\PtyGroRte)\,d\tau }\kap_{t} & =  0. \label{eq:tvc}
 \end{aligned}\end{gathered}\end{equation}
 
-Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kap$ that satisfy the \hyperref[eq:cdotOc]{Euler equation} and the \hyperref[eq:RCK-kdot]{accumulation equation}, all from the same $\kap_{0}$. The path that starts above the saddle path runs capital to zero in finite time, after which consumption would have to collapse, which the Euler equation forbids. The path that starts below it accumulates capital past the golden rule, toward the point where the $\dot{\kap}=0$ locus meets the $\kap$ axis, with consumption falling toward zero; there the interest rate is below $\PopnGroRte+\PtyGroRte$, so the discount term grows without bound and the \hyperref[eq:tvc]{transversality condition} fails. Only the middle path, the ``saddle path,'' satisfies all three conditions.\marginFootnote{The steady state is a saddle point. Linearized there, the system's Jacobian matrix, the derivatives of $\dot{\kap}$ and $\dot{\cNrm}$ with respect to $\kap$ and $\cNrm$, has $\partial\dot{\kap}/\partial\cNrm = -1$ and $\partial\dot{\cNrm}/\partial\cNrm = 0$, so its determinant is $\Steady{\cNrm}\fFunc^{\prime\prime}(\Steady{\kap})/\CRRA < 0$ and its two eigenvalues have opposite signs: one direction converges to the steady state, and the other diverges. The saddle path is the converging one; the stable eigenvalue, in absolute value, is the model's speed of convergence, which \citet{barro&salaimartin:book}, chapter 2, compare with the speed observed across countries and regions.}
+Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kap$ that satisfy the \hyperref[eq:cdotOc]{Euler equation} and the \hyperref[eq:RCK-kdot]{accumulation equation}, all from the same $\kap_{0}$. The path that starts above the middle one, the ``saddle path,'' runs capital to zero in finite time, after which consumption would have to collapse, which the Euler equation forbids. The path that starts below it accumulates capital past the golden rule, toward the point where the $\dot{\kap}=0$ locus meets the $\kap$ axis, with consumption falling toward zero; there the interest rate is below $\PopnGroRte+\PtyGroRte$, so the discount term grows without bound and the \hyperref[eq:tvc]{transversality condition} fails. Only the saddle path satisfies all three conditions.\marginFootnote{The steady state is a saddle point. Linearize the system there: its Jacobian matrix, the derivatives of $\dot{\kap}$ and $\dot{\cNrm}$ with respect to $\kap$ and $\cNrm$, has $\partial\dot{\kap}/\partial\cNrm = -1$ and $\partial\dot{\cNrm}/\partial\cNrm = 0$, so its determinant is $\partial\dot{\cNrm}/\partial\kap = \Steady{\cNrm}\fFunc^{\prime\prime}(\Steady{\kap})/\CRRA < 0$, and its two eigenvalues have opposite signs: one direction converges to the steady state, and the other diverges. The saddle path is the converging one; the stable eigenvalue, in absolute value, is the model's speed of convergence, which \citet{barro&salaimartin:book}, chapter 2, compare with the speed observed across countries and regions.}
 
 \begin{figure}
   \caption{Transition to the Steady State}\label{fig:RamseySaddlePlot}
@@ -213,7 +213,7 @@ Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kap$ that 
 
 How much of observed growth can the transition explain? Little, \citet{king&rebelo:trans} argue: with plausible parameters, an economy far enough below its steady state for the transition to account for much of its growth would have implausibly high interest rates early on.
 
-\href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{Decentralizing the Ramsey/Cass-Koopmans Model} shows that competitive households and firms, taking prices as given, reproduce the planner's allocation, and \href{https://intertemporal-choice.github.io/content/growth/rckwithgov/}{The Ramsey/Cass-Koopmans (RCK) Model with Government} adds government spending and taxes.
+\href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{Decentralizing the Ramsey/Cass-Koopmans Model} shows that, under special conditions, competitive households and firms, taking prices as given, reproduce the planner's allocation, and \href{https://intertemporal-choice.github.io/content/growth/rckwithgov/}{The Ramsey/Cass-Koopmans (RCK) Model with Government} adds government spending, taxes and debt.
 
 \bibliographystyle{econark}
 \bibliography{\bibfilesfound}
@@ -226,7 +226,7 @@ How much of observed growth can the transition explain? Little, \citet{king&rebe
 \ifthenelse{\boolean{NumericalSolution}}{
   \pagebreak\centerline{\bf \Large Appendix: Numerical Solution} \medskip\medskip
 
-  Since the transition has no analytical solution, its quantitative implications must be computed. This appendix shows how, for students beginning research on growth models.
+  Since the transition has, in general, no analytical solution, its quantitative implications must be computed. This appendix shows how, for students beginning research on growth models.
 
   The most straightforward method of numerical solution for perfect foresight
   models of this kind is called the
@@ -244,7 +244,7 @@ How much of observed growth can the transition explain? Little, \citet{king&rebe
     d\cNrm/d\kap & =  \left(\frac{(\kapShare \kap^{\kapShare-1}-\discRte -(\PopnGroRte+\deprRte)-\CRRA \PtyGroRte)\cNrm}
                        {\CRRA(\kap^{\kapShare} - \cNrm - (\PtyGroRte +\PopnGroRte+\deprRte) \kap)}\right)
   \end{aligned}\end{gathered}\end{equation}
-  which is a differential equation with no analytical solution.  Many numerical math packages can solve differential equations numerically, yielding a numerical version of the $\cFunc(\kap)$ function.
+  which is a differential equation with, in general, no analytical solution.  Many numerical math packages can solve differential equations numerically, yielding a numerical version of the $\cFunc(\kap)$ function.
 
   There is one problem, however: at the steady state both $\dot{\cNrm}$ and $\dot{\kap}$ are zero, so the right-hand side of this equation is $0/0$, and the solution cannot start there. It starts instead a small step $\epsilon$ away from the steady state on each side, along the saddle path's slope there, and integrates the equation outward, away from the steady state: once down toward $\kap=0$, yielding $\cFunc_{-}(\kap)$, and once up to some large value of $\kap$, yielding $\cFunc_{+}(\kap)$. The slope comes from the system linearized at the steady state: it is the direction of the eigenvector with the negative eigenvalue, the one direction from which the economy converges. Within $\epsilon$ of the steady state, the consumption function is the straight line along that slope.
 
