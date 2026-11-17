@@ -78,6 +78,7 @@ ACCEPTED_TEXT = [
 CROSS_CHAPTER = {
     '#eq:PFCRRA-cgrow': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow',
     '#eq:PatWGroCond': 'https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-patwgrocond',
+    '#sec:HamiltonianVSDiscrete': 'https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/',
 }
 
 # The notebook beside the chapter, of which the handout keeps an identical copy beside it
