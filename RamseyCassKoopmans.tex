@@ -106,16 +106,16 @@ so if productivity at date 0 is $\PtyLab_{0}$, at date $t$
   \CLvl/\LLvl & =  \cNrm\PtyLab   \\
                & =  \cNrm\PtyLab _{0}e^{\PtyGroRte t}. \label{eq:cRat}
 \end{aligned}\end{gathered}\end{equation}
+Since $\PtyLab_{0}$ multiplies consumption at every date, it only scales the objective, by the positive constant $\PtyLab_{0}^{1-\CRRA}$, so we can impose $\PtyLab_{0}=1$ without loss of generality.
 
 Using \eqref{eq:cRat}, and writing $\uFunc(\cNrm) = \cNrm^{1-\CRRA}/(1-\CRRA)$, with $\CRRA$ the coefficient of relative risk aversion, rewrite the social planner's objective function as
 \begin{equation}\begin{gathered}\begin{aligned}
   \int_{0}^{\infty} \left(\frac{(\PtyLab \cNrm)^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}\,dt & =
-  \PtyLab _{0}^{1-\CRRA}\int_{0}^{\infty} \left(\frac{\cNrm^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}e^{(1-\CRRA)\PtyGroRte  t}\,dt
-  \\ & =  \PtyLab _{0}^{1-\CRRA}\int_{0}^{\infty} \uFunc(\cNrm) e^{\left((1-\CRRA)\PtyGroRte -\discRte \right) t}\,dt
+  \int_{0}^{\infty} \left(\frac{\cNrm^{1-\CRRA}}{1-\CRRA}\right) e^{-\discRte  t}e^{(1-\CRRA)\PtyGroRte  t}\,dt
+  \\ & =  \int_{0}^{\infty} \uFunc(\cNrm) e^{\left((1-\CRRA)\PtyGroRte -\discRte \right) t}\,dt
            .
            \label{eq:maxprobmod}
 \end{aligned}\end{gathered}\end{equation}
-The positive constant $\PtyLab_{0}^{1-\CRRA}$ does not change the optimal plan, so we can impose $\PtyLab_{0}=1$ without loss of generality.
 
 Thus, assuming $\discRte > (1-\CRRA) \PtyGroRte$, so that the objective is finite (that is, imposing the \href{https://llorracc.github.io/BufferStockTheory/#pffvac}{finite value of autarky condition}), the complete optimization problem
 is
@@ -132,14 +132,14 @@ whose current-value Hamiltonian is\marginFootnote{If the Hamiltonian is new to y
 \end{equation}
 
 The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{current-value Hamiltonian optimization condition} for consumption requires $\partial
-\Ham/\partial \cNrm = 0$:\marginFootnote{In the book's mathematical appendices, \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} derives the Hamiltonian's conditions for a version of this model without productivity growth and shows how each relates to the discrete-time Bellman approach.}
+\Ham/\partial \cNrm = 0$:
 \begin{equation}\begin{gathered}\begin{aligned}
   \cNrm^{-\CRRA} & =  \vk  \label{eq:RCK-H1A} \\
   -\CRRA \cNrm^{-\CRRA-1}\dot{\cNrm} & =  \dot{\vk}
                                        .
 \end{aligned}\end{gathered}\end{equation}
 
-The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{current-value Hamiltonian optimization condition} for capital, the costate equation, requires:
+The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{current-value Hamiltonian optimization condition} for capital, the costate equation, requires:\marginFootnote{In the book's mathematical appendices, \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} derives the Hamiltonian's conditions for a version of this model without productivity growth and shows how each relates to the discrete-time Bellman approach.}
 \begin{equation}\begin{gathered}\begin{aligned}
   \dot{\vk} & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \partial \Ham/\partial \kap  \\
                 & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \vk (\fFunc^{\prime}(\kap) - (\PopnGroRte+\PtyGroRte+\deprRte))  \\
@@ -177,7 +177,7 @@ Using $\fFunc^{\prime}(\kap) = \kapShare \kap^{\kapShare-1}$, the modified golde
   \Steady{\kap} & =  \left(\frac{\kapShare}{\discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte}\right)^{\frac{1}{1-\kapShare}} . \label{eq:RCK-kSteadyCobbDouglas}
 \end{aligned}\end{gathered}\end{equation}
 
-Thus $\Steady{\kap}$ is higher when capital's share of output, $\kapShare$, is higher, and lower when consumers are more impatient, population grows faster, capital depreciates faster, or productivity grows faster.\marginFootnote{Strictly, $\Steady{\kap}$ rises with $\kapShare$ when $\kapShare/(\discRte+\PopnGroRte+\deprRte+\CRRA\PtyGroRte) > e^{-(1-\kapShare)/\kapShare}$, which holds for any plausible parameters: with the notebook's, the left side is 1.76 and the right 0.097.} When productivity grows, it is also lower when $\CRRA$ is higher: consumers who dislike differences in consumption over time save less when they expect their consumption to grow.
+Thus $\Steady{\kap}$ is higher when capital's share of output, $\kapShare$, is higher, and lower when consumers are more impatient, population grows faster, capital depreciates faster, or productivity grows faster.\marginFootnote{Strictly, $\Steady{\kap}$ rises with $\kapShare$ when $\kapShare/(\discRte+\PopnGroRte+\deprRte+\CRRA\PtyGroRte) > e^{-(1-\kapShare)/\kapShare}$, which holds for any plausible parameters: with the notebook's, the left side is 1.76 and the right 0.097.} Faster productivity growth lowers it for the reason behind the \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/\#eq-patwgrocond}{growth impatience condition}: consumers who know they will be richer in the future want to spend more today. When productivity grows, it is also lower when $\CRRA$ is higher: consumers who dislike differences in consumption over time save less when they expect their consumption to grow.
 
 \section{A Phase Diagram}
 
@@ -206,7 +206,7 @@ The two differential equations and $\kap_{0}$ don't pin down $\cNrm_{0}$: every 
   \lim_{t \rightarrow \infty} e^{-\int_{0}^{t} (\rfree_{\tau} -\PopnGroRte -\PtyGroRte)\,d\tau }\kap_{t} & =  0. \label{eq:tvc}
 \end{aligned}\end{gathered}\end{equation}
 
-Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kap$ that satisfy the \hyperref[eq:cdotOc]{Euler equation} and the \hyperref[eq:RCK-kdot]{accumulation equation}, all from the same $\kap_{0}$. The path that starts above the middle one, the ``saddle path,'' runs capital to zero in finite time, after which consumption would have to collapse, which the Euler equation forbids. The path that starts below it accumulates capital past the golden rule, toward the point where the $\dot{\kap}=0$ locus meets the $\kap$ axis, with consumption falling toward zero; there the interest rate is below $\PopnGroRte+\PtyGroRte$, so the discount term grows without bound and the \hyperref[eq:tvc]{transversality condition} fails. Only the saddle path satisfies all three conditions.\marginFootnote{The steady state is a saddle point. Linearize the system there: its Jacobian matrix, the derivatives of $\dot{\kap}$ and $\dot{\cNrm}$ with respect to $\kap$ and $\cNrm$, has $\partial\dot{\kap}/\partial\cNrm = -1$ and $\partial\dot{\cNrm}/\partial\cNrm = 0$, so its determinant is $\partial\dot{\cNrm}/\partial\kap = \Steady{\cNrm}\fFunc^{\prime\prime}(\Steady{\kap})/\CRRA < 0$, and its two eigenvalues have opposite signs: one direction converges to the steady state, and the other diverges. The saddle path is the converging one; the stable eigenvalue, in absolute value, is the model's speed of convergence, which \citet{barro&salaimartin:book}, chapter 2, compare with the speed observed across countries and regions.}
+Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kap$ that satisfy the dynamic equations for consumption and assets, \eqref{eq:cdotOc} and \eqref{eq:RCK-kdot}, all from the same $\kap_{0}$. The path that starts above the middle one, the ``saddle path,'' runs capital to zero in finite time, after which consumption would have to collapse, which the Euler equation forbids. The path that starts below it accumulates capital past the golden rule, toward the point where the $\dot{\kap}=0$ locus meets the $\kap$ axis, with consumption falling toward zero; there the interest rate is below $\PopnGroRte+\PtyGroRte$, so the discount term grows without bound and the \hyperref[eq:tvc]{transversality condition} fails. Only the saddle path satisfies all three conditions.\marginFootnote{The steady state is a saddle point. Linearize the system there: its Jacobian matrix, the derivatives of $\dot{\kap}$ and $\dot{\cNrm}$ with respect to $\kap$ and $\cNrm$, has $\partial\dot{\kap}/\partial\cNrm = -1$ and $\partial\dot{\cNrm}/\partial\cNrm = 0$, so its determinant is $\partial\dot{\cNrm}/\partial\kap = \Steady{\cNrm}\fFunc^{\prime\prime}(\Steady{\kap})/\CRRA < 0$, and its two eigenvalues have opposite signs: one direction converges to the steady state, and the other diverges. The saddle path is the converging one; the stable eigenvalue, in absolute value, is the model's speed of convergence, which \citet{barro&salaimartin:book}, chapter 2, compare with the speed observed across countries and regions.}
 
 \begin{figure}
   \caption{Transition to the Steady State}\label{fig:RamseySaddlePlot}
