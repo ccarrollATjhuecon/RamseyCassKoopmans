@@ -69,9 +69,7 @@ ACCEPTED_REWRITES = []  # the chapter's \check{\kap} became \Steady{\kap} in boo
 
 # (the handout's words just before it, handout words, book words, why accepted)
 # Words are as tokenized, with spaces between them.
-ACCEPTED_TEXT = [
-    ('technological progress . This', 'handout', 'chapter', 'each document names its own format'),
-]
+ACCEPTED_TEXT = []  # 'handout' / 'chapter' went with book #114's intro (no "This handout follows ..." sentence)
 
 # The book's links to labels in other chapters, and the address the handout gives each
 # (Chris, 2026-11-14: link to the book's page).
