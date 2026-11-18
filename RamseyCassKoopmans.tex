@@ -34,17 +34,17 @@
 % \setboolean{NumericalSolution}{false}
 
 
-\citet{ramseySave}, followed much later by \citet{cass:growth} and \citet{koopmans:growth}, formulated the canonical model of optimal growth for an economy with exogenous ``labor-augmenting'' technological progress. For the facts the model is meant to explain, and the Solow model it builds on, see the undergraduate textbook of \citet{ashrafWeilGrowth}.\marginFootnote{Graduate textbook treatments are in \citet{blanchard&fischer:text}, chapter 2, \citet{barro&salaimartin:book}, chapter 2, and \citet{acemogluGrowth}, chapter 8.}
+\citet{ramseySave}, followed much later by \citet{cass:growth} and \citet{koopmans:growth}, formulated the canonical model of optimal growth, presented here for an economy with exogenous ``labor-augmenting'' technological progress. For the facts the model is meant to explain, and the Solow model it builds on, see the undergraduate textbook of \citet{ashrafWeilGrowth}.\marginFootnote{Graduate textbook treatments are in \citet{blanchard&fischer:text}, chapter 2, \citet{barro&salaimartin:book}, chapter 2, and \citet{acemogluGrowth}, chapter 8.}
 
 \section{The Budget Constraint}
 
 The economy has a perfectly competitive production sector that uses a constant-returns-to-scale Cobb-Douglas production function\marginFootnote{States and controls are functions of time; time subscripts appear only where clarity needs them.}
 \begin{equation}\begin{gathered}\begin{aligned}
-                   \YLvl & =  \FFunc(\KLvl,\LLvl) = \KLvl^{\kapShare}(\PtyLab \LLvl)^{1-\kapShare}
+                   \YLvl & =  \FFunc(\KLvl,\PtyLab \LLvl) = \KLvl^{\kapShare}(\PtyLab \LLvl)^{1-\kapShare}
 \end{aligned}\end{gathered}\end{equation}
 to produce output using capital and labor.  Under perfect competition firms must make zero profits in equilibrium, which means, by \href{https://intertemporal-choice.github.io/content/appendices/mathematical/mathfactslist/\#fact-eulerstheorem}{Euler's theorem}, that\marginFootnote{An important insight here is that all of output is absorbed by payments to labor and to capital; there is nothing left over (say, to fund corporate research to invent new technologies to augment productivity).}
 \begin{equation}
-  \YLvl = \FFunc_{\KLvl}\KLvl + \FFunc_{\LLvl}\LLvl . \label{eq:RCK-outputExhausted}
+  \YLvl = \FFunc_{\KLvl}\KLvl + \FFunc_{\LLvl}\LLvl , \qquad \FFunc_{\KLvl} \equiv \partial\YLvl/\partial\KLvl , \quad \FFunc_{\LLvl} \equiv \partial\YLvl/\partial\LLvl . \label{eq:RCK-outputExhausted}
 \end{equation}
 Labor hours (the same as population) increase exogenously at a constant rate\marginFootnote{The population growth rate is written $\PopnGroRte$: $\PopnGroFac$ is the population's growth factor and $\lnat$ is the natural log, so $\PopnGroRte = \log \PopnGroFac$.}
 \begin{equation}\begin{gathered}\begin{aligned}
@@ -66,28 +66,28 @@ Aggregate capital accumulates according to
   \dot{\KLvl} & =  \YLvl - \CLvl - \deprRte \KLvl \label{eq:Kdotlevel}.
 \end{aligned}\end{gathered}\end{equation}
 
-Lower case variables are the upper case version divided by efficiency units,\marginFootnote{NOT per-capita; this is required for `\hyperref[sec:RCK-SteadyState]{balanced growth}'.} so $\yNrm = \YLvl/(\PtyLab \LLvl) = (\KLvl/(\PtyLab \LLvl))^{\kapShare} = \kap^{\kapShare}$. Since $\kap = \KLvl/(\PtyLab \LLvl)$,
+Lower case variables are the upper case version divided by efficiency units,\marginFootnote{NOT per-capita; this makes the `\hyperref[sec:RCK-SteadyState]{balanced growth}' path a steady state.} so $\yNrm = \YLvl/(\PtyLab \LLvl) = (\KLvl/(\PtyLab \LLvl))^{\kapShare} = \kNrm^{\kapShare}$. Since $\kNrm = \KLvl/(\PtyLab \LLvl)$,
 \begin{equation}
-  \dot{\kap}/\kap = \dot{\KLvl}/\KLvl - \dot{\PtyLab}/\PtyLab - \dot{\LLvl}/\LLvl = \dot{\KLvl}/\KLvl - (\PtyGroRte +\PopnGroRte),
+  \dot{\kNrm}/\kNrm = \dot{\KLvl}/\KLvl - \dot{\PtyLab}/\PtyLab - \dot{\LLvl}/\LLvl = \dot{\KLvl}/\KLvl - (\PtyGroRte +\PopnGroRte),
 \end{equation}
 so dividing \eqref{eq:Kdotlevel} by $\PtyLab \LLvl$ and using it gives
 \begin{equation}
-  \dot{\kap} = \fFunc(\kap) - \cNrm - (\PtyGroRte +\PopnGroRte+\deprRte) \kap . \label{eq:RCK-kdot}
+  \dot{\kNrm} = \fFunc(\kNrm) - \cNrm - (\PtyGroRte +\PopnGroRte+\deprRte) \kNrm . \label{eq:RCK-kdot}
 \end{equation}
 
-A steady state is a point where $\dot{\kap} = 0$, so that
+A steady state is a point where $\dot{\kNrm} = 0$, so that
 \begin{equation}
-  \cNrm = \fFunc(\kap) - (\PtyGroRte +\PopnGroRte+\deprRte) \kap . \label{eq:RCK-cSteadyState}
+  \cNrm = \fFunc(\kNrm) - (\PtyGroRte +\PopnGroRte+\deprRte) \kNrm . \label{eq:RCK-cSteadyState}
 \end{equation}
-A first candidate for the best steady state is the one with the highest $\cNrm$. Maximizing steady-state consumption with respect to $\kap$ requires
+A first candidate for the best steady state is the one with the highest $\cNrm$. Maximizing steady-state consumption with respect to $\kNrm$ requires
 \begin{equation*}
-  \frac{d\cNrm}{d\kap} = \fFunc^{\prime}(\kap) - (\PtyGroRte +\PopnGroRte+\deprRte) = 0 ,
+  \frac{d\cNrm}{d\kNrm} = \fFunc^{\prime}(\kNrm) - (\PtyGroRte +\PopnGroRte+\deprRte) = 0 ,
 \end{equation*}
-and since $d^{2}\cNrm/d\kap^{2} = \fFunc^{\prime\prime}(\kap) < 0$, this is a maximum. The capital stock that satisfies it, $\GoldRule{\kap}$, obeys the ``golden rule'' of \citet{phelps:golden}, an article well worth reading:
+and since $d^{2}\cNrm/d\kNrm^{2} = \fFunc^{\prime\prime}(\kNrm) < 0$, this is a maximum. The capital stock that satisfies it, $\GoldRule{\kNrm}$, obeys the ``golden rule'' of \citet{phelps:golden}, an article well worth reading:
 \begin{equation}
-  \fFunc^{\prime}(\GoldRule{\kap}) = \PtyGroRte +\PopnGroRte+\deprRte . \label{eq:RCK-goldenRule}
+  \fFunc^{\prime}(\GoldRule{\kNrm}) = \PtyGroRte +\PopnGroRte+\deprRte . \label{eq:RCK-goldenRule}
 \end{equation}
-One more unit of $\kap$ adds $\fFunc^{\prime}(\kap)$ to output, but holding it steady as effective labor grows and capital depreciates takes $\PtyGroRte +\PopnGroRte+\deprRte$ more investment; consumption is highest where the two are equal. With the Cobb-Douglas $\fFunc(\kap) = \kap^{\kapShare}$, the golden rule is $\GoldRule{\kap} = \left(\kapShare/(\PtyGroRte +\PopnGroRte+\deprRte)\right)^{1/(1-\kapShare)}$.
+One more unit of $\kNrm$ adds $\fFunc^{\prime}(\kNrm)$ to output, but holding it steady as effective labor grows and capital depreciates takes $\PtyGroRte +\PopnGroRte+\deprRte$ more investment; consumption is highest where the two are equal. With the Cobb-Douglas $\fFunc(\kNrm) = \kNrm^{\kapShare}$, the golden rule is $\GoldRule{\kNrm} = \left(\kapShare/(\PtyGroRte +\PopnGroRte+\deprRte)\right)^{1/(1-\kapShare)}$.
 
 \section{The Social Planner's Problem}
 
@@ -124,11 +124,11 @@ is
 \end{equation}
 subject to
 \begin{equation}
-  \dot{\kap} = \kap^{\kapShare}-\cNrm-(\PopnGroRte+\PtyGroRte+\deprRte)\kap,
+  \dot{\kNrm} = \kNrm^{\kapShare}-\cNrm-(\PopnGroRte+\PtyGroRte+\deprRte)\kNrm,
 \end{equation}
 whose current-value Hamiltonian is\marginFootnote{If the Hamiltonian is new to you, Peter Thompson's \href{https://www.andrew.cmu.edu/course/88-737/optimal_control/optimal_control.pdf}{lecture notes on optimal control} derive the method from the economics of a firm's capital problem, and later work through this model. Wikipedia's \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)\#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{worked example of the RCK model}, linked from the two optimization conditions, uses the present-value Hamiltonian instead, whose costate is this one discounted to date zero.}
 \begin{equation}
-  \Ham(\kap,\cNrm,\vk) = \uFunc(\cNrm) + (\kap^{\kapShare} - \cNrm - (\PopnGroRte+\PtyGroRte+\deprRte)\kap)\vk.
+  \Ham(\kNrm,\cNrm,\vk) = \uFunc(\cNrm) + (\kNrm^{\kapShare} - \cNrm - (\PopnGroRte+\PtyGroRte+\deprRte)\kNrm)\vk.
 \end{equation}
 
 The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{current-value Hamiltonian optimization condition} for consumption requires $\partial
@@ -141,22 +141,22 @@ The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ra
 
 The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{current-value Hamiltonian optimization condition} for capital, the costate equation, requires:\marginFootnote{In the book's mathematical appendices, \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} derives the Hamiltonian's conditions for a version of this model without productivity growth and shows how each relates to the discrete-time Bellman approach.}
 \begin{equation}\begin{gathered}\begin{aligned}
-  \dot{\vk} & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \partial \Ham/\partial \kap  \\
-                & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \vk (\fFunc^{\prime}(\kap) - (\PopnGroRte+\PtyGroRte+\deprRte))  \\
-  \dot{\vk}/{\vk} & =  \discRte+\PopnGroRte+\deprRte+\CRRA \PtyGroRte-\fFunc^{\prime}(\kap) .
+  \dot{\vk} & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \partial \Ham/\partial \kNrm  \\
+                & =  (\discRte-(1-\CRRA)\PtyGroRte)\vk - \vk (\fFunc^{\prime}(\kNrm) - (\PopnGroRte+\PtyGroRte+\deprRte))  \\
+  \dot{\vk}/{\vk} & =  \discRte+\PopnGroRte+\deprRte+\CRRA \PtyGroRte-\fFunc^{\prime}(\kNrm) .
 \end{aligned}\end{gathered}\end{equation}
 
 Since \eqref{eq:RCK-H1A} gives $\dot{\vk}/\vk = -\CRRA\dot{\cNrm}/\cNrm$, this is
 \begin{equation}
-  \dot{\cNrm}/\cNrm = \CRRA^{-1}(\fFunc^{\prime}(\kap)-(\PopnGroRte+\deprRte)-\discRte - \CRRA \PtyGroRte), \label{eq:cdotOc}
+  \dot{\cNrm}/\cNrm = \CRRA^{-1}(\fFunc^{\prime}(\kNrm)-(\PopnGroRte+\deprRte)-\discRte - \CRRA \PtyGroRte), \label{eq:cdotOc}
 \end{equation}
-or, with $\rfree \equiv \fFunc^{\prime}(\kap) - \deprRte$ the interest rate, $\dot{\cNrm}/\cNrm = \CRRA^{-1}(\rfree - \discRte - \PopnGroRte) - \PtyGroRte$.
+or, with $\rfree \equiv \fFunc^{\prime}(\kNrm) - \deprRte$ the interest rate, $\dot{\cNrm}/\cNrm = \CRRA^{-1}(\rfree - \discRte - \PopnGroRte) - \PtyGroRte$.
 
 This Euler equation is called the ``Keynes-Ramsey rule,'' because Ramsey derived it
 with an explanation attributed to Keynes.
-Apart from the $-\PtyGroRte$, which comes from measuring consumption per efficiency unit, it is like \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow}{the Euler equation in the perfect foresight CRRA model} in continuous time, with two differences: the return that matters is $\rfree-\PopnGroRte$ rather than $\rfree$, because population growth dilutes each person's capital, and that return varies over time as $\fFunc^{\prime}(\kap)$ does.
+Apart from the $-\PtyGroRte$, which comes from measuring consumption per efficiency unit, it is like \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/#eq-pfcrra-cgrow}{the Euler equation in the perfect foresight CRRA model} in continuous time, with two differences: the return that matters is $\rfree-\PopnGroRte$ rather than $\rfree$, because population growth dilutes each person's capital, and that return varies over time as $\fFunc^{\prime}(\kNrm)$ does.
 
-Since per capita consumption is $\CLvl/\LLvl = \cNrm \PtyLab$, it grows at $\dot{\cNrm}/\cNrm + \PtyGroRte = \CRRA^{-1}(\fFunc^{\prime}(\kap)-(\PopnGroRte+\deprRte)-\discRte)$: the same formula, as a function of $\kap$, as in the model with no productivity growth, the \hyperref[eq:cdotOc]{Euler equation} with $\PtyGroRte=0$. Productivity growth matters only through $\kap$.
+Since per capita consumption is $\CLvl/\LLvl = \cNrm \PtyLab$, it grows at $\dot{\cNrm}/\cNrm + \PtyGroRte = \CRRA^{-1}(\fFunc^{\prime}(\kNrm)-(\PopnGroRte+\deprRte)-\discRte)$: the same formula, as a function of $\kNrm$, as in the model with no productivity growth, the \hyperref[eq:cdotOc]{Euler equation} with $\PtyGroRte=0$. Productivity growth matters only through $\kNrm$.
 
 \section{The Steady State}\label{sec:RCK-SteadyState}
 
@@ -164,36 +164,36 @@ Technological progress is assumed to be labor-augmenting because then,
 in the steady state, per capita consumption, income
 and capital all grow at rate $\PtyGroRte$.\marginFootnote{\citet{ghosDespiteUzawa} discuss how realistic this requirement is.}
 
-$\dot{\cNrm}/\cNrm = 0$ implies that at the steady-state value of $\Steady{\kap}$,
+$\dot{\cNrm}/\cNrm = 0$ implies that at the steady-state value of $\Steady{\kNrm}$,
 \begin{equation}
-  \fFunc^{\prime}(\Steady{\kap}) = \discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte . \label{eq:RCK-modGoldenRule}
+  \fFunc^{\prime}(\Steady{\kNrm}) = \discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte . \label{eq:RCK-modGoldenRule}
 \end{equation}
 
-This is the ``modified golden rule'' of \citet{blanchard&fischer:text}, chapter 2. Comparing it with the \hyperref[eq:RCK-goldenRule]{golden rule}, $\fFunc^{\prime}(\Steady{\kap}) - \fFunc^{\prime}(\GoldRule{\kap}) = \discRte - (1-\CRRA)\PtyGroRte$, so $\Steady{\kap} < \GoldRule{\kap}$ exactly when $\discRte > (1-\CRRA)\PtyGroRte$: the assumption that keeps the planner's objective finite also rules out accumulating more capital than the golden rule.
+This is the ``modified golden rule'' of \citet{blanchard&fischer:text}, chapter 2. Comparing it with the \hyperref[eq:RCK-goldenRule]{golden rule}, $\fFunc^{\prime}(\Steady{\kNrm}) - \fFunc^{\prime}(\GoldRule{\kNrm}) = \discRte - (1-\CRRA)\PtyGroRte$, so $\Steady{\kNrm} < \GoldRule{\kNrm}$ exactly when $\discRte > (1-\CRRA)\PtyGroRte$: the assumption that keeps the planner's objective finite also rules out accumulating more capital than the golden rule.
 
-Using $\fFunc^{\prime}(\kap) = \kapShare \kap^{\kapShare-1}$, the modified golden rule gives an analytical formula for the steady state:
+Using $\fFunc^{\prime}(\kNrm) = \kapShare \kNrm^{\kapShare-1}$, the modified golden rule gives an analytical formula for the steady state:
 \begin{equation}\begin{gathered}\begin{aligned}
-  \kapShare \Steady{\kap}^{\kapShare-1} & =  \discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte  \\
-  \Steady{\kap} & =  \left(\frac{\kapShare}{\discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte}\right)^{\frac{1}{1-\kapShare}} . \label{eq:RCK-kSteadyCobbDouglas}
+  \kapShare \Steady{\kNrm}^{\kapShare-1} & =  \discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte  \\
+  \Steady{\kNrm} & =  \left(\frac{\kapShare}{\discRte +\PopnGroRte+\deprRte+\CRRA \PtyGroRte}\right)^{\frac{1}{1-\kapShare}} . \label{eq:RCK-kSteadyCobbDouglas}
 \end{aligned}\end{gathered}\end{equation}
 
-Thus $\Steady{\kap}$ is higher when capital's share of output, $\kapShare$, is higher, and lower when consumers are more impatient, population grows faster, capital depreciates faster, or productivity grows faster.\marginFootnote{Strictly, $\Steady{\kap}$ rises with $\kapShare$ when $\kapShare/(\discRte+\PopnGroRte+\deprRte+\CRRA\PtyGroRte) > e^{-(1-\kapShare)/\kapShare}$, which holds for any plausible parameters: with the notebook's, the left side is 1.76 and the right 0.097.} Faster productivity growth lowers it for the reason behind the \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/\#eq-patwgrocond}{growth impatience condition}: consumers who know they will be richer in the future want to spend more today. When productivity grows, it is also lower when $\CRRA$ is higher: consumers who dislike differences in consumption over time save less when they expect their consumption to grow.
+Thus $\Steady{\kNrm}$ is higher when capital's share of output, $\kapShare$, is higher, and lower when consumers are more impatient, population grows faster, capital depreciates faster, or productivity grows faster.\marginFootnote{Strictly, $\Steady{\kNrm}$ rises with $\kapShare$ when $\kapShare/(\discRte+\PopnGroRte+\deprRte+\CRRA\PtyGroRte) > e^{-(1-\kapShare)/\kapShare}$, which holds for any plausible parameters: with the notebook's, the left side is 1.76 and the right 0.097.} Faster productivity growth lowers it for the reason behind the \href{https://intertemporal-choice.github.io/content/consumption/perfforesightcrra/\#eq-patwgrocond}{growth impatience condition}: consumers who know they will be richer in the future want to spend more today. When productivity grows, it is also lower when $\CRRA$ is higher: consumers who dislike differences in consumption over time save less when they expect their consumption to grow.
 
 \section{A Phase Diagram}
 
 The RCK model's steady state has an analytical solution, but its transition
-does not. The usual tool for analyzing it is a \href{https://en.wikipedia.org/wiki/Phase_portrait}{phase diagram} in $\cNrm$ and $\kap$.
+does not. The usual tool for analyzing it is a \href{https://en.wikipedia.org/wiki/Phase_portrait}{phase diagram} in $\cNrm$ and $\kNrm$.
 
 The first step is to find where the system's differential equations are
-zero. By \eqref{eq:RCK-kdot}, $\dot{\kap}=0$ implies
+zero. By \eqref{eq:RCK-kdot}, $\dot{\kNrm}=0$ implies
 \begin{equation}\begin{gathered}\begin{aligned}
-  \cNrm & =  \fFunc(\kap) - (\PtyGroRte +\PopnGroRte+\deprRte) \kap \label{eq:RCK-kdotEq0}
+  \cNrm & =  \fFunc(\kNrm) - (\PtyGroRte +\PopnGroRte+\deprRte) \kNrm \label{eq:RCK-kdotEq0}
 \end{aligned}\end{gathered}\end{equation}
-and the $\dot{\cNrm}/\cNrm=0$ locus is the constant $\Steady{\kap}$ found above.
+and the $\dot{\cNrm}/\cNrm=0$ locus is the constant $\Steady{\kNrm}$ found above.
 The two loci divide the diagram into its phases, as figure~\ref{fig:RamseySSPlot} shows.
 
 \begin{figure}
-  \caption{$\dot{\cNrm}/\cNrm =0 $ and $\dot{\kap}=0$ Loci}\label{fig:RamseySSPlot}
+  \caption{$\dot{\cNrm}/\cNrm =0 $ and $\dot{\kNrm}=0$ Loci}\label{fig:RamseySSPlot}
   \includegraphics[width=6in]{\FigDir/RamseySSPlot.png}
 
   \small Note: With $\CRRA=2$, $\kapShare=0.3$, $\discRte=0.02$, $\PopnGroRte=0.01$ and $\deprRte=0.08$, and productivity growth $\PtyGroRte$ of 0.03 (low) or 0.06 (high); the dotted line marks the golden rule when $\PtyGroRte$ is low. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\NotebookBinder}{Binder}.
@@ -201,18 +201,18 @@ The two loci divide the diagram into its phases, as figure~\ref{fig:RamseySSPlot
 
 \section{Transition}
 
-The two differential equations and $\kap_{0}$ don't pin down $\cNrm_{0}$: every starting $\cNrm_{0}$ traces a path. Together with the requirement that capital stay positive, the transversality condition picks one:\marginFootnote{The transversality condition is an optimality condition, not the intertemporal budget constraint. The requirement that capital stay positive, $\kap > 0$, rules out ending with negative wealth in present value; the transversality condition rules out ending with positive wealth in present value, capital that is never consumed. Together they make the intertemporal budget constraint hold with equality. \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} shows that the condition sets the present value of capital in the far future to zero, in discrete and in continuous time.}
+The two differential equations and $\kNrm_{0}$ don't pin down $\cNrm_{0}$: every starting $\cNrm_{0}$ traces a path. Together with the requirement that capital stay positive, the transversality condition picks one:\marginFootnote{The transversality condition is an optimality condition, not the intertemporal budget constraint. The requirement that capital stay positive, $\kNrm > 0$, rules out ending with negative wealth in present value; the transversality condition rules out ending with positive wealth in present value, capital that is never consumed. Together they make the intertemporal budget constraint hold with equality. \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} shows that the condition sets the present value of capital in the far future to zero, in discrete and in continuous time.}
 \begin{equation}\begin{gathered}\begin{aligned}
-  \lim_{t \rightarrow \infty} e^{-\int_{0}^{t} (\rfree_{\tau} -\PopnGroRte -\PtyGroRte)\,d\tau }\kap_{t} & =  0. \label{eq:tvc}
+  \lim_{t \rightarrow \infty} e^{-\int_{0}^{t} (\rfree_{\tau} -\PopnGroRte -\PtyGroRte)\,d\tau }\kNrm_{t} & =  0. \label{eq:tvc}
 \end{aligned}\end{gathered}\end{equation}
 
-Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kap$ that satisfy the dynamic equations for consumption and assets, \eqref{eq:cdotOc} and \eqref{eq:RCK-kdot}, all from the same $\kap_{0}$. The path that starts above the middle one, the ``saddle path,'' runs capital to zero in finite time, after which consumption would have to collapse, which the Euler equation forbids. The path that starts below it accumulates capital past the golden rule, toward the point where the $\dot{\kap}=0$ locus meets the $\kap$ axis, with consumption falling toward zero; there the interest rate is below $\PopnGroRte+\PtyGroRte$, so the discount term grows without bound and the \hyperref[eq:tvc]{transversality condition} fails. Only the saddle path satisfies all three conditions.\marginFootnote{The steady state is a saddle point. Linearize the system there: its Jacobian matrix, the derivatives of $\dot{\kap}$ and $\dot{\cNrm}$ with respect to $\kap$ and $\cNrm$, has $\partial\dot{\kap}/\partial\cNrm = -1$ and $\partial\dot{\cNrm}/\partial\cNrm = 0$, so its determinant is $\partial\dot{\cNrm}/\partial\kap = \Steady{\cNrm}\fFunc^{\prime\prime}(\Steady{\kap})/\CRRA < 0$, and its two eigenvalues have opposite signs: one direction converges to the steady state, and the other diverges. The saddle path is the converging one; the stable eigenvalue, in absolute value, is the model's speed of convergence, which \citet{barro&salaimartin:book}, chapter 2, compare with the speed observed across countries and regions.}
+Figure~\ref{fig:RamseySaddlePlot} shows three paths for $\cNrm$ and $\kNrm$ that satisfy the dynamic equations for consumption and assets, \eqref{eq:cdotOc} and \eqref{eq:RCK-kdot}, all from the same $\kNrm_{0}$. The path that starts above the ``saddle path'' (the middle one) runs capital to zero in finite time, after which consumption would have to collapse, which the Euler equation forbids. The path that starts below it accumulates capital past the golden rule, toward the point where the $\dot{\kNrm}=0$ locus meets the $\kNrm$ axis, with consumption falling toward zero; there the interest rate is below $\PopnGroRte+\PtyGroRte$, so the discount term grows without bound and the \hyperref[eq:tvc]{transversality condition} fails. Only the saddle path satisfies all three conditions.\marginFootnote{The steady state is a saddle point. Linearize the system there: its Jacobian matrix, the derivatives of $\dot{\kNrm}$ and $\dot{\cNrm}$ with respect to $\kNrm$ and $\cNrm$, has $\partial\dot{\kNrm}/\partial\cNrm = -1$ and $\partial\dot{\cNrm}/\partial\cNrm = 0$, so its determinant is $\partial\dot{\cNrm}/\partial\kNrm = \Steady{\cNrm}\fFunc^{\prime\prime}(\Steady{\kNrm})/\CRRA < 0$, and its two eigenvalues have opposite signs: one direction converges to the steady state, and the other diverges. The saddle path is the converging one; the stable eigenvalue, in absolute value, is the model's speed of convergence, which \citet{barro&salaimartin:book}, chapter 2, compare with the speed observed across countries and regions.}
 
 \begin{figure}
   \caption{Transition to the Steady State}\label{fig:RamseySaddlePlot}
   \includegraphics[width=6in]{\FigDir/RamseySaddlePlot.png}
 
-  \small Note: The same economy, with $\PtyGroRte=0.03$. From $\kap=0.5$, consumption 10 percent above the saddle path runs the capital stock down to zero, and consumption 10 percent below it accumulates capital past the golden rule, marked by the dotted line. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\NotebookBinder}{Binder}.
+  \small Note: The same economy, with $\PtyGroRte=0.03$. From $\kNrm=0.5$, consumption 10 percent above the saddle path runs the capital stock down to zero, and consumption 10 percent below it accumulates capital past the golden rule, marked by the dotted line. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\NotebookBinder}{Binder}.
 \end{figure}
 
 How much of observed growth can the transition explain? Little, \citet{king&rebelo:trans} argue: with plausible parameters, an economy far enough below its steady state for the transition to account for much of its growth would have implausibly high interest rates early on.
@@ -236,21 +236,21 @@ How much of observed growth can the transition explain? Little, \citet{king&rebe
   models of this kind is the
   ``time elimination'' method \citep{Mulligan&sm:transdynam}. It starts from
   \begin{equation}\begin{gathered}\begin{aligned}
-    \left(\frac{d\cNrm/dt}{d\kap/dt}\right) &=  d\cNrm/d\kap.
+    \left(\frac{d\cNrm/dt}{d\kNrm/dt}\right) &=  d\cNrm/d\kNrm.
   \end{aligned}\end{gathered}\end{equation}
 
   By \eqref{eq:cdotOc},
   \begin{equation}\begin{gathered}\begin{aligned}
-    \dot{\cNrm} & =   \CRRA^{-1}(\fFunc^{\prime}(\kap)-\discRte -(\PopnGroRte+\deprRte)-\CRRA \PtyGroRte)\cNrm \label{eq:cdot},
+    \dot{\cNrm} & =   \CRRA^{-1}(\fFunc^{\prime}(\kNrm)-\discRte -(\PopnGroRte+\deprRte)-\CRRA \PtyGroRte)\cNrm \label{eq:cdot},
   \end{aligned}\end{gathered}\end{equation}
   so
   \begin{equation}\begin{gathered}\begin{aligned}
-    d\cNrm/d\kap & =  \left(\frac{(\kapShare \kap^{\kapShare-1}-\discRte -(\PopnGroRte+\deprRte)-\CRRA \PtyGroRte)\cNrm}
-                       {\CRRA(\kap^{\kapShare} - \cNrm - (\PtyGroRte +\PopnGroRte+\deprRte) \kap)}\right)
+    d\cNrm/d\kNrm & =  \left(\frac{(\kapShare \kNrm^{\kapShare-1}-\discRte -(\PopnGroRte+\deprRte)-\CRRA \PtyGroRte)\cNrm}
+                       {\CRRA(\kNrm^{\kapShare} - \cNrm - (\PtyGroRte +\PopnGroRte+\deprRte) \kNrm)}\right)
   \end{aligned}\end{gathered}\end{equation}
-  which is a differential equation with, in general, no analytical solution. Many numerical math packages can solve it, yielding a numerical version of the $\cFunc(\kap)$ function.
+  which is a differential equation with, in general, no analytical solution. Many numerical math packages can solve it, yielding a numerical version of the $\cFunc(\kNrm)$ function.
 
-  One problem: at the steady state both $\dot{\cNrm}$ and $\dot{\kap}$ are zero, so the right-hand side of this equation is $0/0$, and the solution cannot start there. It starts instead a small step $\epsilon$ away from the steady state on each side, along the saddle path's slope there, and integrates the equation outward, away from the steady state: once down toward $\kap=0$, yielding $\cFunc_{-}(\kap)$, and once up to some large value of $\kap$, yielding $\cFunc_{+}(\kap)$. The slope comes from the system linearized at the steady state: it is the direction of the eigenvector with the negative eigenvalue, the one direction from which the economy converges. Within $\epsilon$ of the steady state, the consumption function is the straight line along that slope.
+  One problem: at the steady state both $\dot{\cNrm}$ and $\dot{\kNrm}$ are zero, so the right-hand side of this equation is $0/0$, and the solution cannot start there. It starts instead a small step $\epsilon$ away from the steady state on each side, along the saddle path's slope there, and integrates the equation outward, away from the steady state: once down toward $\kNrm=0$, yielding $\cFunc_{-}(\kNrm)$, and once up to some large value of $\kNrm$, yielding $\cFunc_{+}(\kNrm)$. The slope comes from the system linearized at the steady state: it is the direction of the eigenvector with the negative eigenvalue, the one direction from which the economy converges. Within $\epsilon$ of the steady state, the consumption function is the straight line along that slope.
 
   \citet{judd:book} covers numerical methods for saddle paths more generally.  The \href{\Notebook}{notebook} solves the model this way and draws both figures; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\NotebookBinder}{Binder}.
 }{}
