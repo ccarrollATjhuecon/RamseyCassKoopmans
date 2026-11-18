@@ -1,9 +1,9 @@
 % Macros specific to this handout: objects the shared registry (econ-ark-tools, @resources/notation) lacks.
 % Each is a bridge: it loads after econark-notation, so once the vendored registry defines the macro,
 % the registry's definition wins; then delete the line here. The book defines each the same way, as
-% course-local entries in its notation/course-local-math.yml (\PtyLab and \Ham as candidates for registry
-% rows). Rule D (Chris, 2026-11-15) writes every object with a macro, so an object the registry lacks gets one here.
-\providecommand{\PtyLab}{\mathrm{Z}}% labor-augmenting productivity
+% course-local entries in its notation/course-local-math.yml (\Ham as a candidate for a registry row).
+% Rule D (Chris, 2026-11-15) writes every object with a macro, so an object the registry lacks gets one here.
+% Labor-augmenting productivity, \PtyLab, is the registry's since v11.1.0: italic Z (Chris, 2026-11-17 18:44:25 EST).
 \providecommand{\Ham}{\mathcal{H}}% the current-value Hamiltonian
 \providecommand{\vk}{\lambda}% the costate on capital, which is its marginal value: the book's \vk (qModel's lambda)
 % The chapter's own objects, in its frontmatter math block rather than the course-local file (Chris, 2026-11-17
