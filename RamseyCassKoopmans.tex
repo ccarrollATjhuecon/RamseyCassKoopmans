@@ -115,9 +115,9 @@ Using \eqref{eq:cRat}, and writing $\uFunc(\cNrm) = \cNrm^{1-\CRRA}/(1-\CRRA)$, 
            .
            \label{eq:maxprobmod}
 \end{aligned}\end{gathered}\end{equation}
+The positive constant $\PtyLab_{0}^{1-\CRRA}$ does not change the optimal plan, so we can impose $\PtyLab_{0}=1$ without loss of generality.
 
-Thus, assuming $\discRte > (1-\CRRA) \PtyGroRte$, so that the objective is finite (that is, imposing the \href{https://llorracc.github.io/BufferStockTheory/#pffvac}{finite value of autarky condition}), and normalizing the initial
-level of productivity to $\PtyLab _{0}=1$, the complete optimization problem
+Thus, assuming $\discRte > (1-\CRRA) \PtyGroRte$, so that the objective is finite (that is, imposing the \href{https://llorracc.github.io/BufferStockTheory/#pffvac}{finite value of autarky condition}), the complete optimization problem
 is
 \begin{equation}
   \max \int_{0}^{\infty} \uFunc(\cNrm) e^{-(\discRte - (1-\CRRA)\PtyGroRte) t}\,dt
@@ -126,13 +126,13 @@ subject to
 \begin{equation}
   \dot{\kap} = \kap^{\kapShare}-\cNrm-(\PopnGroRte+\PtyGroRte+\deprRte)\kap,
 \end{equation}
-whose current-value Hamiltonian is\marginFootnote{If the Hamiltonian is new to you, Peter Thompson's \href{https://www.andrew.cmu.edu/course/88-737/optimal_control/optimal_control.pdf}{lecture notes on optimal control} derive the method from the economics of a firm's capital problem, and later work through this model. Wikipedia's \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)\#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{worked example of the RCK model}, linked from the two optimization conditions, uses the present-value Hamiltonian instead, whose costate is this one discounted to date zero. \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time}, in the mathematical appendices, derives the Hamiltonian's conditions for a version of this model without productivity growth and shows how each relates to the discrete-time Bellman approach.}
+whose current-value Hamiltonian is\marginFootnote{If the Hamiltonian is new to you, Peter Thompson's \href{https://www.andrew.cmu.edu/course/88-737/optimal_control/optimal_control.pdf}{lecture notes on optimal control} derive the method from the economics of a firm's capital problem, and later work through this model. Wikipedia's \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)\#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{worked example of the RCK model}, linked from the two optimization conditions, uses the present-value Hamiltonian instead, whose costate is this one discounted to date zero.}
 \begin{equation}
   \Ham(\kap,\cNrm,\vk) = \uFunc(\cNrm) + (\kap^{\kapShare} - \cNrm - (\PopnGroRte+\PtyGroRte+\deprRte)\kap)\vk.
 \end{equation}
 
 The \href{https://en.wikipedia.org/wiki/Hamiltonian_(control_theory)#Example:_Ramsey\%E2\%80\%93Cass\%E2\%80\%93Koopmans_model}{current-value Hamiltonian optimization condition} for consumption requires $\partial
-\Ham/\partial \cNrm = 0$:
+\Ham/\partial \cNrm = 0$:\marginFootnote{In the book's mathematical appendices, \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/}{Ramsey Growth in Discrete and Continuous Time} derives the Hamiltonian's conditions for a version of this model without productivity growth and shows how each relates to the discrete-time Bellman approach.}
 \begin{equation}\begin{gathered}\begin{aligned}
   \cNrm^{-\CRRA} & =  \vk  \label{eq:RCK-H1A} \\
   -\CRRA \cNrm^{-\CRRA-1}\dot{\cNrm} & =  \dot{\vk}
