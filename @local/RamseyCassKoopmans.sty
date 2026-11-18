@@ -1,14 +1,7 @@
-% Macros specific to this handout: objects the shared registry (econ-ark-tools, @resources/notation) lacks.
-% Each is a bridge: it loads after econark-notation, so once the vendored registry defines the macro,
-% the registry's definition wins; then delete the line here. The book defines each the same way, as
-% course-local entries in its notation/course-local-math.yml (\Ham as a candidate for a registry row).
-% Rule D (Chris, 2026-11-15) writes every object with a macro, so an object the registry lacks gets one here.
-% Labor-augmenting productivity, \PtyLab, is the registry's since v11.1.0: italic Z (Chris, 2026-11-17 18:44:25 EST).
-\providecommand{\Ham}{\mathcal{H}}% the current-value Hamiltonian
-\providecommand{\vk}{\lambda}% the costate on capital, which is its marginal value: the book's \vk (qModel's lambda)
-% \PtyAgg, the sans-serif A that multiplies total output (Chris, 2026-11-17 20:16:27 EST), comes only from the
-% registry, never from here (20:21:13 EST: handout-specific macros go to zero). Until @resources defines it, the
-% margin note on neutral progress doesn't build.
+% No notation is defined here. Since registry v14.1.0 (econ-ark-tools 02e344d5) the registry defines every object
+% this handout writes: \Ham and \vk joined it then, and \PtyLab and \PtyAgg before (v11.1.0, v11.2.0). Chris,
+% 2026-11-17 20:21:13 EST: handout-specific macros go to zero. 22:55:52 EST, in jd_econ-ark-tools: the course takes
+% up v14.1.0's rows.
 
 % Not notation. A note the book prints in its margin (a {margin} block), printed here as a footnote
 % (Chris, 2026-11-14: "As a footnote"). check-book-sync.py compares it with the book's margin block.
